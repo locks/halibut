@@ -1,8 +1,12 @@
 require "halibut/version"
 
 module Halibut
-  # Your code goes here...
 end
 
-require_relative 'halibut/json'
-require_relative 'halibut/xml'
+require 'halibut/hal/document'
+require 'halibut/hal/resource'
+require 'halibut/hal/link'
+
+require 'halibut/json/parser'
+
+require 'halibut/xml/document'

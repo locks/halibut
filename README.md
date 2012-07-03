@@ -20,6 +20,51 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+## RDD
+
+```ruby
+# Namespaces
+Halibut::JSON
+Halibut::XML
+Halibut::HAL
+
+Halibut::JSON::Document
+Halibut::JSON::Builder
+
+Halibut::XML::Document
+Halibut::XML::Builder
+
+Halibut::HAL::Document
+Halibut::HAL::Document::LinkSet
+Halibut::HAL::Document::ResourceSet
+Halibut::HAL::Document::AttributeSet (?)
+Halibut::HAL::Link
+Halibut::HAL::Resource
+
+hal = Halibut::XML::Builder.new "/api/news" do |it|
+    it.attr "some_attribute", "The Value of the Attribute"
+    it.attr "another_attribute", "The Value of Another Attribute"
+
+    it.link "search", "/api/news{?search}", :templated => true
+    
+    it.resource "relation", "/href/etc" do |r|
+        r.attr "again", "this"
+        r.attr "this",  "again"
+        
+        r.link "search", "/href/etc?search={term}", :templated => true, :title => "Embedded Resource"
+    end
+    it.resource "relation", "/href/more" do |r|
+        r.attr "again", "this"
+        r.attr "this",  "again"
+        
+        r.link "search", "/href/more?search={term}", :templated => true, :title => "Embedded Resource"
+    end
+end
+hal.to_xml
+
+news = Halibut::HAL::Link.new "index", "/api/news"
+```
+
 ## Contributing
 
 1. Fork it

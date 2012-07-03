@@ -1,10 +1,15 @@
-module Halibut::JSON
+module Halibut
   
-  class Document
-    attr_accessor :resources, :links
+  module JSON
     
-    def initialize(root, opts={})
-      @options.merge(opts)
+    class Document
+      
+      def initialize
+      end
+      
+      def parse
+      end
+      
     end
     
   end

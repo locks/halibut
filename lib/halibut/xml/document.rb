@@ -1,10 +1,8 @@
-module Halibut::XML
+module Halibut
   
-  class Document
-    attr_accessor :resources, :links
+  module XML
     
-    def initialize(root, opts={})
-      @options.merge(opts)
+    class Document
     end
     
   end

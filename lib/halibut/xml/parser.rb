@@ -1,6 +1,19 @@
-module Halibut::XML
+require 'nokogiri'
+
+module Halibut
   
-  class Parser
+  module XML
+    
+    class Parser
+      
+      def initialize
+      end
+      
+      def parse
+      end
+      
+    end
+    
   end
   
 end
