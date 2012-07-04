@@ -16,8 +16,15 @@ module Halibut
     #   - embedded resources
     #   - other links
     class Resource
-      attr_reader :resources, :links, :url
+      # Resource attributes:
+      # +resources+ Embedded resources
+      # +links*     Links associated with this resource
+      attr_reader :resources, :links
       
+      # Initializes Resource.
+      # +href+
+      # +links+
+      # +resources+
       def initialize(href, links={}, resources=[])
         @links      = LinkSet.new
         @resources  = ResourceSet.new
@@ -25,11 +32,13 @@ module Halibut
         @links << Halibut::HAL::Link.new('self', href)
       end
       
+      # Returns the URI associated with this resource
       def href
         @links[:self]
       end
       alias_method :href, :url
       
+      # Returns the URI associated with this resource
       def url
         @links['self'].url
       end

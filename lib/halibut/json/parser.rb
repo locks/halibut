@@ -1,13 +1,20 @@
 module Halibut
   module JSON
 
+    # Halibut::XML::Parser is the class responsible for parsing JSON strings
+    # into an Halibut::HAL::Resource.
+    #
     class Parser
       require 'json'
       
+      # Class method, obviously.
+      # Returns a new document.
       def self.parse document
         Parser.new document
       end
       
+      # Inits the parser.
+      # +json+ JSON-encoded string
       def initialize(json)
         json = ::JSON.parse json
         @doc = Halibut::HAL::Resource.new json['_links']['self']['href']

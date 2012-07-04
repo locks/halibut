@@ -26,8 +26,13 @@ module Halibut
     #    :templated => true
     #
     class Link
+      # Title and hreflang
       attr_reader :title, :hreflang
       
+      # Initializes the link.
+      # +relation+ The relation of the link to the resource
+      # +href+     The URI of the link
+      # +options+  Optional parameters of the link, such as `templated`, `title` and `hreflang`
       def initialize(relation, href, options={})
         @name      = relation
         @href      = parse_href(href, options["templated"])
@@ -56,6 +61,8 @@ module Halibut
       
       private
       
+      # Returns either a URI or a URI Template depending on the templated
+      # option passed to the object
       def parse_href href, templated
         templated ? URITemplate.new(href) : URI.parse(href)
       end
