@@ -21,6 +21,9 @@ Gem::Specification.new do |gem|
   
   gem.add_development_dependency "rake"
   gem.add_development_dependency "pry"
+  gem.add_development_dependency "pry-rescue"
+  gem.add_development_dependency "pry-debugger"
+  gem.add_development_dependency "pry-coolline"
   gem.add_development_dependency "minitest"
   gem.add_development_dependency "guard"
   gem.add_development_dependency "guard-bundler"
