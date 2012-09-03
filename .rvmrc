@@ -1,1 +1,1 @@
-rvm use default@halibut --create
+rvm use --create default@halibut

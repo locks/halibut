@@ -4,7 +4,7 @@
 guard 'bundler' do
   watch('Gemfile')
   # Uncomment next line if Gemfile contain `gemspec' command
-  # watch(/^.+\.gemspec/)
+  watch(/^.+\.gemspec/)
 end
 
 guard 'minitest' do
