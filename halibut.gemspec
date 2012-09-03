@@ -30,4 +30,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "guard"
   gem.add_development_dependency "guard-bundler"
   gem.add_development_dependency "guard-minitest"
+
+  gem.add_development_dependency "growl"
+  gem.add_development_dependency "growl_notify"
 end
