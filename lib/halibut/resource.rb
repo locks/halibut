@@ -1,5 +1,3 @@
-require 'halibut/link_relation'
-
 module Halibut
 
   class Resource
@@ -13,19 +11,11 @@ module Halibut
     end
     
     def add_link(relation, href)
-      if @links.has_key? relation
-        @links[relation] = [] << @links[relation] << href
-      else
-        @links[relation] = href
-      end
+      add_to_relation @links, relation, href
     end
     
     def embed_resource(relation, resource)
-      if @resources.has_key? relation
-        @resources[relation] = [] << @resources[relation] << resource
-      else
-        @resources[relation] = resource
-      end
+      add_to_relation @resources, relation, resource
     end
     
     #
@@ -34,6 +24,15 @@ module Halibut
     
     def embedded
       @resources
+    end
+    
+    private
+    def add_to_relation(collection, relation, item)
+      if collection.has_key? relation
+        collection[relation] = [] << collection[relation] << item
+      else
+        collection[relation] = item
+      end
     end
     
   end
