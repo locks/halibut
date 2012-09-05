@@ -6,3 +6,4 @@ end
 
 require 'halibut/resource'
 require 'halibut/link'
+require 'halibut/link_relation'
