@@ -5,3 +5,4 @@ module Halibut
 end
 
 require 'halibut/resource'
+require 'halibut/relation_map'

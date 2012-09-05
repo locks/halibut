@@ -20,26 +20,6 @@ describe Halibut::Resource do
       end
     end
     
-    describe "link relation" do
-      subject { Halibut::Resource.new }
-      
-      it "single link per relation" do
-        subject.add_link "random", normal_uri
-        
-        subject.links.wont_be_empty
-        subject.links['random'].must_equal normal_uri
-      end
-      
-      it "multiple link per relation" do
-        subject.add_link "random", normal_uri
-        subject.add_link "random", templated_uri
-        
-        subject.links['random'].size.must_equal 2
-        subject.links['random'].first.must_equal normal_uri
-        subject.links['random'].last.must_equal  templated_uri
-      end
-    end
-
   end
   
   describe "Embedded resources" do

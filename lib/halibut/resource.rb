@@ -1,21 +1,23 @@
+require 'halibut/relation_map'
+
 module Halibut
 
   class Resource
     attr_reader :properties, :links
   
     def initialize(href=nil)
-      @links = {}
-      @resources = {}
+      @links = RelationMap.new
+      @resources = RelationMap.new
       
       add_link('self', href) if href
     end
     
     def add_link(relation, href)
-      add_to_relation @links, relation, href
+      @links.add relation, href
     end
     
     def embed_resource(relation, resource)
-      add_to_relation @resources, relation, resource
+      @resources.add relation, resource
     end
     
     #
@@ -24,15 +26,6 @@ module Halibut
     
     def embedded
       @resources
-    end
-    
-    private
-    def add_to_relation(collection, relation, item)
-      if collection.has_key? relation
-        collection[relation] = [] << collection[relation] << item
-      else
-        collection[relation] = item
-      end
     end
     
   end
