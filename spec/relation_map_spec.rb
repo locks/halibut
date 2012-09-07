@@ -2,7 +2,7 @@ require_relative 'spec_helper'
 
 describe Halibut::RelationMap do
   subject { Halibut::RelationMap.new }
-
+  
   it "is empty" do
     subject.must_be_empty
   end

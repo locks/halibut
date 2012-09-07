@@ -21,6 +21,10 @@ module Halibut
     def empty?
       @relations.empty?
     end
+    
+    def to_hash
+      @relations
+    end
   
   end
   

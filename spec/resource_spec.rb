@@ -4,6 +4,22 @@ describe Halibut::Resource do
   let(:templated_uri) { "http://example.com/{path}{?query}" }
   let(:normal_uri)    { "http://example.com" }
   
+  describe "Properties" do
+    subject { Halibut::Resource.new }
+  
+    it "set property" do
+      subject.set_property "property", "value"
+      
+      subject.properties['property'].must_equal "value"
+    end
+    
+    it "read property" do
+      subject.set_property "property", "value"
+      
+      subject.get_property('property').must_equal "value"
+    end
+  end
+  
   describe "Links" do
   
     describe "self link" do
@@ -31,20 +47,22 @@ describe Halibut::Resource do
       subject.embedded.must_be_empty 
     end
     
-    it "one embedded resource per relation" do
-      subject.embed_resource "random", res1
+    it "has embedded resource" do
+      subject.embed_resource 'users', res1
+      subject.embed_resource 'users', res2
       
-      subject.embedded['random'].must_equal res1
-    end
-    
-    it "several embedded resources per relation" do
-      subject.embed_resource("random", res1)
-      subject.embed_resource("random", res2)
-      
-      subject.embedded['random'].size.must_equal 2
-      subject.embedded['random'].first.must_equal res1
-      subject.embedded['random'].last.must_equal  res2
+      subject.embedded['users'].first.must_equal res1
+      subject.embedded['users'].last.must_equal  res2
     end
   end
-
+  
+  describe "Serialize" do
+    subject { Halibut::Resource.new("http://example.com").to_json }
+    
+    it "serializes to JSON" do
+      json = load_json "simple"
+      
+      JSON.load(subject).must_equal JSON.load(json)
+    end
+  end
 end

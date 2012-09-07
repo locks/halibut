@@ -1,3 +1,4 @@
+require 'json'
 require 'halibut/relation_map'
 
 module Halibut
@@ -6,10 +7,19 @@ module Halibut
     attr_reader :properties, :links
   
     def initialize(href=nil)
-      @links = RelationMap.new
-      @resources = RelationMap.new
+      @links      = RelationMap.new
+      @resources  = RelationMap.new
+      @properties = {}
       
       add_link('self', href) if href
+    end
+    
+    def set_property property, value
+      @properties[property] = value
+    end
+    
+    def get_property property
+      @properties[property]
     end
     
     def add_link(relation, href)
@@ -26,6 +36,22 @@ module Halibut
     
     def embedded
       @resources
+    end
+    
+    #
+    # Serialize
+    #
+    def as_json
+      json = {}
+      json = json.merge @properties
+      json['_links']     = @links.to_hash.map {|k,v| {k => {'href' => v}} }.reduce {} unless @links.empty?
+      json['_resources'] = {}.merge @resources unless @resources.empty?
+      
+      json
+    end
+    
+    def to_json
+      JSON.dump as_json
     end
     
   end
