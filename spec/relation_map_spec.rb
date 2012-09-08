@@ -11,8 +11,8 @@ describe Halibut::RelationMap do
     subject.add 'first' , 'first'
     subject.add 'second', 'second'
     
-    subject['first'].must_equal  'first'
-    subject['second'].must_equal 'second'
+    subject['first'].first.must_equal  'first'
+    subject['second'].first.must_equal 'second'
   end
   
   it "has various items per relation" do

@@ -7,11 +7,9 @@ module Halibut
     end
     
     def add(relation, item)
-      if @relations.has_key? relation
-        @relations[relation] = [] << @relations[relation] << item
-      else
-        @relations[relation] = item
-      end
+      @relations[relation] = [] unless @relations.has_key? relation
+      
+      @relations[relation] << item
     end
     
     def [](relation)
@@ -23,11 +21,13 @@ module Halibut
     end
     
     def to_hash
-      @relations.each_with_object({}) do |pair, obj|
-        obj[pair.first] = pair[1..-1].map &:to_hash
+      a = @relations.each_with_object({}) do |pair, obj|
+        key, *value = pair.flatten
         
-        obj[pair.first] = obj[pair.first].first if obj[pair.first]
+        obj[key] = value.map &:to_hash
+        obj[key].length == 1 and obj[key] = obj[key].first
       end
+      
     end
   
   end

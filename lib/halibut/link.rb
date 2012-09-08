@@ -12,7 +12,7 @@ module Halibut
     end
     
     def templated?
-      @templated
+      @templated || false
     end
     
     def to_hash
@@ -35,11 +35,11 @@ module Halibut
     
     private
     def set_options(opts)
-      @type     = opts['type']
-      @name     = opts['name']
-      @profile  = opts['profile']
-      @title    = opts['title']
-      @hreflang = opts['hreflang']
+      @type     = opts[:type]
+      @name     = opts[:name]
+      @profile  = opts[:profile]
+      @title    = opts[:title]
+      @hreflang = opts[:hreflang]
     end
   end
   

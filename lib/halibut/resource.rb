@@ -30,22 +30,16 @@ module Halibut
       @resources.add relation, resource
     end
     
-    #
-    # Query
-    #
     
     def embedded
       @resources
     end
     
-    #
-    # Serialize
-    #
+
     def as_json
       json = {}
       json = json.merge @properties
-      # json['_links']     = @links.to_hash.map {|k,v| {k => {'href' => v.to_hash}} }.reduce {} unless @links.empty?
-      json['_links']     = {}.merge @links     unless @links.empty?
+      json['_links']     = {}.merge @links     unless @links.empty?      
       json['_resources'] = {}.merge @resources unless @resources.empty?
       
       json

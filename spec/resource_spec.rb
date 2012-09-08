@@ -32,7 +32,7 @@ describe Halibut::Resource do
         resource = Halibut::Resource.new normal_uri
         
         resource.links.wont_be_empty
-        resource.links['self'].href.must_equal normal_uri
+        resource.links['self'].first.href.must_equal normal_uri
       end
     end
     
