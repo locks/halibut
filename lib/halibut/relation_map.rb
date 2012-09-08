@@ -23,7 +23,11 @@ module Halibut
     end
     
     def to_hash
-      @relations
+      @relations.each_with_object({}) do |pair, obj|
+        obj[pair.first] = pair[1..-1].map &:to_hash
+        
+        obj[pair.first] = obj[pair.first].first if obj[pair.first]
+      end
     end
   
   end

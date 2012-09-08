@@ -22,8 +22,8 @@ module Halibut
       @properties[property]
     end
     
-    def add_link(relation, href)
-      @links.add relation, href
+    def add_link(relation, href, templated=nil, opts={})
+      @links.add relation, Halibut::Link.new(href, templated)
     end
     
     def embed_resource(relation, resource)
@@ -44,7 +44,8 @@ module Halibut
     def as_json
       json = {}
       json = json.merge @properties
-      json['_links']     = @links.to_hash.map {|k,v| {k => {'href' => v}} }.reduce {} unless @links.empty?
+      # json['_links']     = @links.to_hash.map {|k,v| {k => {'href' => v.to_hash}} }.reduce {} unless @links.empty?
+      json['_links']     = {}.merge @links     unless @links.empty?
       json['_resources'] = {}.merge @resources unless @resources.empty?
       
       json
