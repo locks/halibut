@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative 'spec_helper'
 
 describe Halibut::Link do
   let(:normal_uri) { 'http://example.com'      }
