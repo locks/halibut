@@ -65,4 +65,25 @@ describe Halibut::Resource do
       JSON.load(subject).must_equal JSON.load(json)
     end
   end
+  
+  describe "Deserialize" do
+    subject { Halibut::Resource.from_json(load_json "serialize") }
+    
+    it "deserializes from JSON" do
+      order = Halibut::Resource.new "/orders/123"
+      order.set_property "total", 30.00
+      order.set_property "currency", "USD"
+      order.set_property "status", "shipped"
+      
+      resource = Halibut::Resource.new "/orders"
+      resource.add_link "find", "/orders{?id}", true
+      resource.add_link "next", "/orders/1"
+      resource.add_link "next", "/orders/9"
+      resource.set_property "currentlyProcessing", 14
+      resource.set_property "shippedToday", 20
+      resource.embed_resource "orders", order
+      
+      subject.must_equal resource
+    end
+  end
 end

@@ -29,6 +29,10 @@ module Halibut
       end
       
     end
+    
+    def ==(other)
+      @relations == other.instance_variable_get(:@relations)
+    end
   
   end
   

@@ -1,0 +1,23 @@
+{  "_links": {
+     "self": { "href": "/orders" },
+     "find": { "href": "/orders{?id}", "templated": true },
+     "next": [
+       { "href": "/orders/1" },
+       { "href": "/orders/9" }
+     ]
+   },
+   "_embedded": {
+     "orders": [
+       {
+         "_links": {
+           "self": { "href": "/orders/123" }
+         },
+         "total": 30.00,
+         "currency": "USD",
+         "status": "shipped"
+       }
+    ]
+   },
+   "currentlyProcessing": 14,
+   "shippedToday": 20
+}

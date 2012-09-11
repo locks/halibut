@@ -41,6 +41,16 @@ module Halibut
       @title    = opts[:title]
       @hreflang = opts[:hreflang]
     end
+    
+    def ==(other)
+      @href      == other.href      &&
+      @templated == other.templated &&
+      @type      == other.type      &&
+      @name      == other.name      &&
+      @profile   == other.profile   &&
+      @title     == other.title     &&
+      @hreflang  == other.hreflang
+    end
   end
   
 end

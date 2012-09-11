@@ -3,6 +3,7 @@ Bundler.setup
 
 require 'minitest/autorun'
 require 'pry'
+
 require 'halibut'
 
 # Testing helper to load JSON files. Returns a string containing JSON.
