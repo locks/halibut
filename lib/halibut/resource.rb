@@ -49,6 +49,10 @@ module Halibut
       JSON.dump as_json
     end
 
+    # Returns an Halibut::Resource with the data present in the JSON received.
+    #
+    # @param [IO] a JSON object to be parsed.
+    # @return [Halibut::Resource] a resource from the data in the JSON.
     def self.from_json resource
       json    = JSON.load(resource)
       halibut = Halibut::Resource.new
