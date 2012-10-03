@@ -1,4 +1,4 @@
-module Halibut
+module Halibut::HAL
 
   class Link
     attr_reader :href, :templated, :type, :name,
