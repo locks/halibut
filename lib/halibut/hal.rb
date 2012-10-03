@@ -1,3 +1,4 @@
+# This module contains HAL objects
 module Halibut::HAL; end
 
 require 'halibut/hal/link'
