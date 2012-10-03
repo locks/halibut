@@ -1,11 +1,11 @@
 require_relative 'spec_helper'
 
-describe Halibut::Resource do
+describe Halibut::HAL::Resource do
   let(:templated_uri) { "http://example.com/{path}{?query}" }
   let(:normal_uri)    { "http://example.com" }
   
   describe "Properties" do
-    subject { Halibut::Resource.new }
+    subject { Halibut::HAL::Resource.new }
   
     it "set property" do
       subject.set_property "property", "value"
@@ -24,12 +24,12 @@ describe Halibut::Resource do
   
     describe "self link" do
       it "no default" do
-        resource = Halibut::Resource.new
+        resource = Halibut::HAL::Resource.new
         resource.links.must_be_empty
       end
       
       it "default" do
-        resource = Halibut::Resource.new normal_uri
+        resource = Halibut::HAL::Resource.new normal_uri
         
         resource.links.wont_be_empty
         resource.links['self'].first.href.must_equal normal_uri
@@ -39,9 +39,9 @@ describe Halibut::Resource do
   end
   
   describe "Embedded resources" do
-    subject { Halibut::Resource.new }
-    let(:res1) { Halibut::Resource.new "http://first-resource.com" }
-    let(:res2) { Halibut::Resource.new "http://secnd-resource.com" }
+    subject { Halibut::HAL::Resource.new }
+    let(:res1) { Halibut::HAL::Resource.new "http://first-resource.com" }
+    let(:res2) { Halibut::HAL::Resource.new "http://secnd-resource.com" }
     
     it "no embedded resource" do
       subject.embedded.must_be_empty 
@@ -57,7 +57,7 @@ describe Halibut::Resource do
   end
   
   describe "Serialize" do
-    subject { Halibut::Resource.new("http://example.com").to_json }
+    subject { Halibut::HAL::Resource.new("http://example.com").to_json }
     
     it "serializes to JSON" do
       json = load_json "simple"
@@ -67,15 +67,15 @@ describe Halibut::Resource do
   end
   
   describe "Deserialize" do
-    subject { Halibut::Resource.from_json(load_json "serialize") }
+    subject { Halibut::HAL::Resource.from_json(load_json "serialize") }
     
     it "deserializes from JSON" do
-      order = Halibut::Resource.new "/orders/123"
+      order = Halibut::HAL::Resource.new "/orders/123"
       order.set_property "total", 30.00
       order.set_property "currency", "USD"
       order.set_property "status", "shipped"
       
-      resource = Halibut::Resource.new "/orders"
+      resource = Halibut::HAL::Resource.new "/orders"
       resource.add_link "find", "/orders{?id}", true
       resource.add_link "next", "/orders/1"
       resource.add_link "next", "/orders/9"
