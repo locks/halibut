@@ -1,7 +1,7 @@
 require 'json'
 require 'halibut/relation_map'
 
-module Halibut
+module Halibut::HAL
 
   class Resource
     attr_reader :properties, :links

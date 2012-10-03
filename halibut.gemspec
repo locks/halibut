@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   
   gem.add_dependency "multi_json"
   gem.add_dependency "nokogiri"
-  gem.add_dependency "uri_template"
+  gem.add_dependency "addressable"
   
   gem.add_development_dependency "rake"
   
