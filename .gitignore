@@ -21,3 +21,6 @@ doc/
 
 # OS X artifacts
 .DS_Store
+
+# Rubinius
+.rbx
