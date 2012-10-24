@@ -1,8 +1,6 @@
 require 'bundler/setup'
-Bundler.setup
 
 require 'minitest/autorun'
-require 'pry'
 
 require 'halibut'
 
