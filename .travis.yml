@@ -1,4 +1,5 @@
 language: ruby
+gemfile: Gemfile.travis
 bundler_args: --without development
 rvm:
   - ree
