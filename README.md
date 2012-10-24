@@ -24,22 +24,15 @@ TODO: Write usage instructions here
 
 ```ruby
 # Namespaces
-Halibut::JSON
-Halibut::XML
+Halibut
 Halibut::HAL
 
-Halibut::JSON::Document
-Halibut::JSON::Builder
+Halibut::Document
+Halibut::ResourceMap
 
-Halibut::XML::Document
-Halibut::XML::Builder
-
-Halibut::HAL::Document
-Halibut::HAL::Document::LinkSet
-Halibut::HAL::Document::ResourceSet
-Halibut::HAL::Document::AttributeSet (?)
 Halibut::HAL::Link
 Halibut::HAL::Resource
+
 
 hal = Halibut::XML::Builder.new "/api/news" do |it|
     it.attr "some_attribute", "The Value of the Attribute"
