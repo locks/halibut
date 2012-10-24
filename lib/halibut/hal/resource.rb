@@ -1,4 +1,5 @@
 require 'json'
+require 'halibut/relation_map'
 
 module Halibut::HAL
 
