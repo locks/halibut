@@ -1,4 +1,4 @@
-require 'json'
+require 'multi_json'
 require 'halibut/relation_map'
 
 module Halibut::HAL
@@ -76,7 +76,7 @@ module Halibut::HAL
     #
     # @return [String] resource as HAL+JSON
     def to_json
-      JSON.dump as_json
+      MultiJson.dump as_json
     end
 
     # Returns an Halibut::Resource with the data present in the JSON received.
@@ -84,7 +84,7 @@ module Halibut::HAL
     # @param  [String] resource JSON object to be parsed.
     # @return [Halibut::HAL::Resource] resource generated from the data.
     def self.from_json(resource)
-      json    = JSON.load(resource)
+      json    = MultiJson.load(resource)
       halibut = self.new
 
       links     = json.delete '_links'
@@ -112,7 +112,7 @@ module Halibut::HAL
         res = res.flatten
 
         res.each do |resource|
-          halibut.embed_resource relation, from_json(JSON.dump resource)
+          halibut.embed_resource relation, from_json(MultiJson.dump resource)
         end
       end if resources
 
