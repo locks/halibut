@@ -1,4 +1,4 @@
-require 'relation'
+require 'halibut/hal/relation'
 
 module Halibut
 
@@ -9,7 +9,7 @@ module Halibut
 
     extend Forwardable
 
-    def_delegators :@relations, :[], :empty?
+    def_delegators :@relations, :empty?
 
     def initialize
       @relations = {}
@@ -38,6 +38,11 @@ module Halibut
         obj[key].length == 1 and obj[key] = obj[key].first
       end
 
+    end
+
+    def [](relation)
+      rel = Relation.new relation
+      @relations[rel]
     end
 
     # Compares two relation sets

@@ -1,11 +1,12 @@
 module Halibut
 
   class Relation
+    attr_accessor :name, :curie
 
     def initialize(name)
-      @name = name
+      splits = name.split(":")
 
-      binding.pry
+      splits.size < 2 ? @name = splits.first : (@curie, @name = splits)
     end
 
     def eql?(other)
@@ -14,6 +15,10 @@ module Halibut
 
     def hash
       instance_variables.hash
+    end
+
+    def to_s
+      @name
     end
 
   end
