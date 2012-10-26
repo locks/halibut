@@ -62,7 +62,7 @@ describe Halibut::HAL::Resource do
     it "serializes to JSON" do
       json = load_json "simple"
 
-      JSON.load(subject).must_equal JSON.load(json)
+      MultiJson.load(subject).must_equal MultiJson.load(json)
     end
   end
 
