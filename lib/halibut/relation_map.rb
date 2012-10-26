@@ -1,3 +1,5 @@
+require 'relation'
+
 module Halibut
 
   # This is an abstract map with behaviour specific to HAL.
@@ -18,9 +20,11 @@ module Halibut
     # @param [String] relation relation that the object belongs to
     # @param [Object] item     the object to add to the relation
     def add(relation, item)
-      @relations[relation] = [] unless @relations.has_key? relation
+      rel = Relation.new(relation)
 
-      @relations[relation] << item
+      @relations[rel] = [] unless @relations.has_key? rel
+
+      @relations[rel] << item
     end
 
     # Returns a hash corresponding to the object.
