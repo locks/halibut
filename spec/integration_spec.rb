@@ -1,7 +1,6 @@
 require_relative 'spec_helper'
 
 require 'json'
-require 'hash'
 
 read_files = ->() {
   Dir.tap {|it| it.chdir('spec/test-resources/src/main/resources') } \
