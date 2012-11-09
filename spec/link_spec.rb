@@ -13,7 +13,7 @@ describe Halibut::HAL::Link do
     end
 
     it "accepts templated uri" do
-      link = Halibut::HAL::Link.new tmpl_uri, true
+      link = Halibut::HAL::Link.new tmpl_uri, templated: true
 
       link.templated?.must_equal true
       link.href.must_equal tmpl_uri
@@ -22,14 +22,14 @@ describe Halibut::HAL::Link do
 
   describe "optionals" do
     it "are set correctly" do
-      link1 = Halibut::HAL::Link.new normal_uri, false, {
+      link1 = Halibut::HAL::Link.new normal_uri, {
         :type     => 'type',
         :name     => 'name',
         :profile  => 'profile',
         :title    => 'title',
         :hreflang => 'hreflang'
       }
-      link2 = Halibut::HAL::Link.new normal_uri, false, {
+      link2 = Halibut::HAL::Link.new normal_uri, {
         :type     => 'type',
         :name     => 'name',
         :profile  => 'profile',
