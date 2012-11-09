@@ -2,7 +2,7 @@
      "self": { "href": "/orders" },
      "find": { "href": "/orders{?id}", "templated": true },
      "next": [
-       { "href": "/orders/1" },
+       { "href": "/orders/1", "name": "hotdog" },
        { "href": "/orders/9" }
      ]
    },

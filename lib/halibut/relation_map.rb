@@ -1,15 +1,12 @@
-require 'halibut/hal/relation'
-
 module Halibut
 
   # This is an abstract map with behaviour specific to HAL.
   #
   # spec spec spec
   class RelationMap
-
     extend Forwardable
 
-    def_delegators :@relations, :empty?
+    def_delegators :@relations, :[], :empty?, :==
 
     def initialize
       @relations = {}
@@ -20,11 +17,7 @@ module Halibut
     # @param [String] relation relation that the object belongs to
     # @param [Object] item     the object to add to the relation
     def add(relation, item)
-      rel = Relation.new(relation)
-
-      @relations[rel] = [] unless @relations.has_key? rel
-
-      @relations[rel] << item
+      @relations[relation] = Array(@relations[relation]) << item
     end
 
     # Returns a hash corresponding to the object.
@@ -34,24 +27,12 @@ module Halibut
       a = @relations.each_with_object({}) do |pair, obj|
         key, *value = pair.flatten
 
+        key = key.to_s
+
         obj[key] = value.map &:to_hash
         obj[key].length == 1 and obj[key] = obj[key].first
       end
 
-    end
-
-    def [](relation)
-      rel = Relation.new relation
-      @relations[rel]
-    end
-
-    # Compares two relation sets
-    #
-    # @param [Halibut::RelationMap] other relation map
-    # @return [true, false] whether the two relation maps have the same relations
-    #   and relation items
-    def ==(other)
-      @relations == other.instance_variable_get(:@relations)
     end
 
   end
