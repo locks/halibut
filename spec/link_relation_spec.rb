@@ -1,5 +1,7 @@
 require_relative 'spec_helper'
 
+require 'halibut/link_relation'
+
 describe Halibut::LinkRelation do
 
   describe "String" do
