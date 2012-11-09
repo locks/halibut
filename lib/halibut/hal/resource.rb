@@ -1,5 +1,7 @@
 require 'multi_json'
+
 require 'halibut/relation_map'
+require 'halibut/adapter/json'
 
 module Halibut::HAL
 
@@ -41,8 +43,8 @@ module Halibut::HAL
     # @param [String]      href      href
     # @param [true, false] templated templated
     # @param [Hash]        opts      options: name, type, hreflang
-    def add_link(relation, href, templated=nil, opts={})
-      @links.add relation, Link.new(href, templated)
+    def add_link(relation, href, opts={})
+      @links.add relation, Link.new(href, opts)
     end
 
     # Embeds resource in relation
@@ -60,14 +62,18 @@ module Halibut::HAL
       @resources
     end
 
+    def to_hash
+      as_json
+    end
+
     # Rails convention.
     #
     # @return [Hash] hash representation of the resource
     def as_json
       json = {}
       json = json.merge @properties
-      json['_links']     = {}.merge @links     unless @links.empty?
-      json['_resources'] = {}.merge @resources unless @resources.empty?
+      json['_links']    = {}.merge @links     unless @links.empty?
+      json['_embedded'] = {}.merge @resources unless @resources.empty?
 
       json
     end
@@ -84,41 +90,13 @@ module Halibut::HAL
     # @param  [String] resource JSON object to be parsed.
     # @return [Halibut::HAL::Resource] resource generated from the data.
     def self.from_json(resource)
-      json    = MultiJson.load(resource)
-      halibut = self.new
-
-      links     = json.delete '_links'
-      resources = json.delete '_embedded'
-
-      json.each_pair do |k,v|
-        halibut.set_property k, v
-      end
-
-      links.each do |relation,v|
-        link = [] << v
-        link = link.flatten
-
-        link.each do |attrs|
-          href      = attrs.delete 'href'
-          templated = attrs.delete 'templated'
-          options   = attrs
-
-          halibut.add_link relation, href, templated, options
-        end
-      end if links
-
-      resources.each do |relation,value|
-        res = [] << value
-        res = res.flatten
-
-        res.each do |resource|
-          halibut.embed_resource relation, from_json(MultiJson.dump resource)
-        end
-      end if resources
-
-      halibut
+      Halibut::Adapter::JSON.load(resource)
     end
 
+    # Compares two resources.
+    #
+    # @param  [Halibut::HAL::Resource] other Resource to compare to
+    # @return [true, false]                  Result of the comparison
     def ==(other)
       @properties == other.properties &&
       @links      == other.links      &&
