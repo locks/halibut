@@ -1,0 +1,2 @@
+hm, link options could be a Struct. that way I'd get
+link.option, link[:option] and link['option'] IIRC?
