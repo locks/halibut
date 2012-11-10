@@ -62,27 +62,22 @@ module Halibut::HAL
       @resources
     end
 
-    def to_hash
-      as_json
-    end
-
-    # Rails convention.
+    # Hash representation of the resource.
+    # Will ommit links and embedded keys if they're empty
     #
     # @return [Hash] hash representation of the resource
-    def as_json
-      json = {}
-      json = json.merge @properties
-      json['_links']    = {}.merge @links     unless @links.empty?
-      json['_embedded'] = {}.merge @resources unless @resources.empty?
-
-      json
+    def to_hash
+      {}.merge(@properties).tap do |h|
+        h['_links']    = {}.merge @links     unless @links.empty?
+        h['_embedded'] = {}.merge @resources unless @resources.empty?
+      end
     end
 
     # Returns resource as HAL+JSON.
     #
     # @return [String] resource as HAL+JSON
     def to_json
-      MultiJson.dump as_json
+      Halibut::Adapter::JSON.dump self
     end
 
     # Returns an Halibut::Resource with the data present in the JSON received.
@@ -90,7 +85,7 @@ module Halibut::HAL
     # @param  [String] resource JSON object to be parsed.
     # @return [Halibut::HAL::Resource] resource generated from the data.
     def self.from_json(resource)
-      Halibut::Adapter::JSON.load(resource)
+      Halibut::Adapter::JSON.load resource
     end
 
     # Compares two resources.

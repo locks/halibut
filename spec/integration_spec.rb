@@ -15,7 +15,7 @@ describe Halibut do
     files  = read_files[]
 
     refilled  = files.map {|f| JSON.load f }
-    resources = files.map {|f| Halibut::HAL::Resource.from_json f }.map &:as_json
+    resources = files.map {|f| Halibut::HAL::Resource.from_json f }.map &:to_hash
 
     zipped = refilled.zip resources
     zipped.each do |json, hal|
