@@ -23,39 +23,28 @@ TODO: Write usage instructions here
 ## RDD
 
 ```ruby
-# Namespaces
-Halibut
-Halibut::HAL
+require 'halibut'
 
-Halibut::Document
-Halibut::ResourceMap
+# manually creating a resource
+order = Halibut::HAL::Resource.new "/orders/123"
+order.set_property "total", 30.00
+order.set_property "currency", "USD"
+order.set_property "status", "shipped"
 
-Halibut::HAL::Link
-Halibut::HAL::Resource
+resource = Halibut::HAL::Resource.new "/orders"
+resource.add_link "find", "/orders{?id}", templated: true
+resource.add_link "next", "/orders/1", "name" => 'hotdog'
+resource.add_link "next", "/orders/9"
+resource.set_property "currentlyProcessing", 14
+resource.set_property "shippedToday", 20
+resource.embed_resource "orders", order
 
+# converting that to JSON
+resource.to_json
 
-hal = Halibut::XML::Builder.new "/api/news" do |it|
-    it.attr "some_attribute", "The Value of the Attribute"
-    it.attr "another_attribute", "The Value of Another Attribute"
+# creating a resource from JSON
+resource = Halibut::HAL::Resource.from_json 'resource.json'
 
-    it.link "search", "/api/news{?search}", :templated => true
-    
-    it.resource "relation", "/href/etc" do |r|
-        r.attr "again", "this"
-        r.attr "this",  "again"
-        
-        r.link "search", "/href/etc?search={term}", :templated => true, :title => "Embedded Resource"
-    end
-    it.resource "relation", "/href/more" do |r|
-        r.attr "again", "this"
-        r.attr "this",  "again"
-        
-        r.link "search", "/href/more?search={term}", :templated => true, :title => "Embedded Resource"
-    end
-end
-hal.to_xml
-
-news = Halibut::HAL::Link.new "index", "/api/news"
 ```
 
 ## Contributing

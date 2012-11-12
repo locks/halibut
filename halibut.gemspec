@@ -22,9 +22,8 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency "minitest"
   gem.add_development_dependency "pry-full"
-  gem.add_development_dependency "pry-coolline"
-  gem.add_development_dependency "pry-rescue", '0.13.pre.2'
-  gem.add_development_dependency "pry-stack_explorer"
+  #gem.add_development_dependency "pry-coolline"
+  #gem.add_development_dependency "pry-rescue", '0.13.pre.2'
   gem.add_development_dependency "hash-differ"
 
   gem.add_development_dependency "guard"
