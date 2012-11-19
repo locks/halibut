@@ -4,13 +4,13 @@ module Halibut::HAL
     attr_reader :templated, :type, :name,
                 :profile, :title, :hreflang
 
-    def initialize opts
-      @templated = opts[:templated] || opts['templated']
-      @type      = opts[:type]      || opts['type']
-      @name      = opts[:name]      || opts['name']
-      @profile   = opts[:profile]   || opts['profile']
-      @title     = opts[:title]     || opts['title']
-      @hreflang  = opts[:hreflang]  || opts['hreflang']
+    def initialize templated, type, name, profile, title, hreflang
+      @templated = templated#opts[:templated] || opts['templated']
+      @type      = type#opts[:type]      || opts['type']
+      @name      = name#opts[:name]      || opts['name']
+      @profile   = profile#opts[:profile]   || opts['profile']
+      @title     = title#opts[:title]     || opts['title']
+      @hreflang  = hreflang#opts[:hreflang]  || opts['hreflang']
     end
 
     # Returns whether the href is a templated uri or not.
@@ -23,7 +23,7 @@ module Halibut::HAL
     end
 
     def to_hash
-      a = instance_variables.each_with_object({}) do |name, output|
+      instance_variables.each_with_object({}) do |name, output|
         next if (ivar = instance_variable_get(name)).nil?
 
         output[name[1..-1]] = ivar
@@ -49,9 +49,10 @@ module Halibut::HAL
     # @param [Hash]    opts      Options: type, name, profile, title, hreflang
     #
     # @return [Halibut::HAL::Link] HAL Link object
-    def initialize(href, opts={})
+    def initialize(href, templated:nil, type:nil, name:nil,
+                         profile:nil, title:nil, hreflang:nil)
       @href = href
-      @options = Options.new opts
+      @options = Options.new templated, type, name, profile, title, hreflang
     end
 
     # Returns a hash corresponding to the Link object.

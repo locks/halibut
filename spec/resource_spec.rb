@@ -77,7 +77,7 @@ describe Halibut::HAL::Resource do
 
       resource = Halibut::HAL::Resource.new "/orders"
       resource.add_link "find", "/orders{?id}", templated: true
-      resource.add_link "next", "/orders/1", "name" => 'hotdog'
+      resource.add_link "next", "/orders/1", name: 'hotdog'
       resource.add_link "next", "/orders/9"
       resource.set_property "currentlyProcessing", 14
       resource.set_property "shippedToday", 20
