@@ -2,4 +2,4 @@ language: ruby
 gemfile: Gemfile.travis
 bundler_args: --without development
 rvm:
-  - 2.0.0
+  - 2.0.0-preview1
