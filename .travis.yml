@@ -2,4 +2,7 @@ language: ruby
 gemfile: Gemfile.travis
 bundler_args: --without development
 rvm:
-  - ruby-2.0.0-preview1
+  - 2.0.0
+matrix:
+  allow_failures:
+    - rvm: 2.0.0
