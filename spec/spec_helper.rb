@@ -1,7 +1,6 @@
 require 'bundler/setup'
 
 require 'minitest/autorun'
-require 'pry-rescue/minitest'
 
 require 'halibut'
 
