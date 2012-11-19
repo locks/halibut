@@ -2,10 +2,4 @@ language: ruby
 gemfile: Gemfile.travis
 bundler_args: --without development
 rvm:
-  - 1.9.2
-  - 1.9.3
-  - ruby-head
-  - jruby-19mode
-  - jruby-head
-  - rbx-19mode
-
+  - 2.0.0
