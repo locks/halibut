@@ -67,6 +67,7 @@ module Halibut::Adapter
                 .each {|embed| @halibut.embed_resource(relation, embed) }
         end
       end
+
     end
   end
 end

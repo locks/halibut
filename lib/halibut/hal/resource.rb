@@ -102,11 +102,10 @@ module Halibut::HAL
     #     link.name
     #     # => "Foo"
     #
-    # @param [String]      relation  relation
-    # @param [String]      href      href
-    # @param [Hash]        opts      options: templated, type, name, profile,
-    #                                  title, hreflang
-    def add_link(relation, href, opts={})
+    # @param [String]      relation relation
+    # @param [String]      href     href
+    # @param [Hash]        opts     options: templated, name, type, hreflang
+    def add_link(relation, href, **opts)
       @links.add relation, Link.new(href, opts)
     end
 

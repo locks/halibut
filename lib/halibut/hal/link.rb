@@ -1,4 +1,5 @@
 module Halibut::HAL
+
   # This class represents a HAL Link object.
   #
   # spec spec spec.
@@ -28,9 +29,10 @@ module Halibut::HAL
     # @param [Hash]    opts      Options: type, name, profile, title, hreflang
     #
     # @return [Halibut::HAL::Link] HAL Link object
-    def initialize(href, opts={})
+    def initialize(href, templated:nil, type:nil, name:nil,
+                         profile:nil, title:nil, hreflang:nil)
       @href    = href
-      @options = Options.new opts
+      @options = Options.new templated, type, name, profile, title, hreflang
     end
 
     # Simply returns a hash of the href and the options that are not empty.
@@ -76,13 +78,13 @@ module Halibut::HAL
       attr_reader :templated, :type, :name,
                   :profile, :title, :hreflang
 
-      def initialize opts
-        @templated = opts[:templated] || opts['templated']
-        @type      = opts[:type]      || opts['type']
-        @name      = opts[:name]      || opts['name']
-        @profile   = opts[:profile]   || opts['profile']
-        @title     = opts[:title]     || opts['title']
-        @hreflang  = opts[:hreflang]  || opts['hreflang']
+      def initialize(templated:nil, type:nil, name:nil, profile:nil, title:nil, hreflang:nil)
+        @templated = templated
+        @type      = type
+        @name      = name
+        @profile   = profile
+        @title     = title
+        @hreflang  = hreflang
       end
 
       # Tells us if the href of the associated link is templated.
