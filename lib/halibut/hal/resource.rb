@@ -1,5 +1,6 @@
 require 'multi_json'
 
+require 'halibut/hal/link'
 require 'halibut/relation_map'
 require 'halibut/adapter/json'
 

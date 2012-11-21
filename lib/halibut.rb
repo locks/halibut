@@ -1,6 +1,11 @@
 require "halibut/version"
 
 # Halibut is the main namespace
-module Halibut; end
+module Halibut
+  autoload :Builder, 'halibut/builder'
+end
 
-require 'halibut/hal'
+# Halibut::HAL contains the domain objects that reflect the HAL specs
+module Halibut::HAL
+  autoload :Resource, 'halibut/hal/resource'
+end
