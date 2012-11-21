@@ -18,9 +18,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+There are three ways to get a resource with halibut: manual, Builder, and JSON.
 
-## RDD
+### Manual
 
 ```ruby
 require 'halibut'
@@ -38,13 +38,31 @@ resource.add_link "next", "/orders/9"
 resource.set_property "currentlyProcessing", 14
 resource.set_property "shippedToday", 20
 resource.embed_resource "orders", order
+```
 
-# converting that to JSON
-resource.to_json
+### Halibut::Builder
+```ruby
+require 'halibut/builder'
+
+Halibut::Builder.new '/orders' do
+    property 'currentlyProcessing', 14
+    property 'shippedToday', 20
+    
+    link 'find', '/orders{?id}', templated: true
+    link 'next', '/orders/1', name: 'hotdog'
+    link 'next', '/orders/9'
+end
+```
+
+### JSON
+```ruby
+require 'halibut/adapter/json'
+
+# converting to JSON
+Halibut::Adapter::JSON.dump resource
 
 # creating a resource from JSON
-resource = Halibut::HAL::Resource.from_json 'resource.json'
-
+resource = Halibut::Adapter::JSON.load 'resource.json'
 ```
 
 ## Contributing
