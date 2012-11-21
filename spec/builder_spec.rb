@@ -1,5 +1,8 @@
 require_relative 'spec_helper'
 
+
+require 'hash'
+
 describe Halibut::Builder do
 
   it "builds empty resource" do
@@ -44,26 +47,54 @@ describe Halibut::Builder do
     resource.must_equal builder.resource
   end
 
-  it "builds resource with embedded resources" do
-    builder = Halibut::Builder.new do
-      embed 'games', Halibut::Builder.new {
-        property :name,    'Crash Bandicoot'
-        property :console, 'PlayStation'
-      }.resource
+  describe "Embedded resources" do
+    it "embeds a single resource" do
+      builder = Halibut::Builder.new do
+        resource 'games', '/game/1' do
+          property :name,    'Crash Bandicoot'
+          property :console, 'PlayStation'
+        end
+      end
+
+      game = Halibut::HAL::Resource.new '/game/1'
+      game.set_property(:name, 'Crash Bandicoot')
+      game.set_property(:console, 'PlayStation')
+
+      resource = Halibut::HAL::Resource.new
+      resource.embed_resource('games', game)
+
+      builder.resource.must_equal resource, diff(builder.resource.to_hash, resource.to_hash)
     end
 
-    game = Halibut::HAL::Resource.new
-    game.set_property(:name, 'Crash Bandicoot')
-    game.set_property(:console, 'PlayStation')
+    it "embeds a collection of resources" do
+      builder = Halibut::Builder.new do
+        resource 'games', '/game/1' do
+          property :name,    'Crash Bandicoot'
+          property :console, 'PlayStation'
+        end
+        resource 'games', '/game/2' do
+          property :name,    'Super Mario Land'
+          property :console, 'Game Boy'
+        end
+      end
 
-    resource = Halibut::HAL::Resource.new
-    resource.embed_resource('games', game)
+      game1 = Halibut::HAL::Resource.new '/game/1'
+      game1.set_property(:name, 'Crash Bandicoot')
+      game1.set_property(:console, 'PlayStation')
 
-    builder.resource.must_equal resource
+      game2 = Halibut::HAL::Resource.new '/game/2'
+      game2.set_property(:name, 'Super Mario Land')
+      game2.set_property(:console, 'Game Boy')
+
+      resource = Halibut::HAL::Resource.new
+      resource.embed_resource('games', game1)
+      resource.embed_resource('games', game2)
+
+      builder.resource.must_equal resource, diff(builder.resource.to_hash, resource.to_hash)
+    end
   end
 
   describe "Relations" do
-
     it "builds resource using relation DSL" do
       builder = Halibut::Builder.new do
         relation 'games' do

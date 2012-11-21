@@ -6,23 +6,43 @@ module Halibut
   class Builder
     extend Forwardable
 
-    attr_reader :resource
-
-    def_delegator :@resource, :set_property,   :property
-    def_delegator :@resource, :add_link,       :link
-    def_delegator :@resource, :embed_resource, :embed
-
     def initialize(href=nil, &blk)
-      @resource = Halibut::HAL::Resource.new href
-
-      instance_eval(&blk) if block_given?
+      @resource = RootContext.new(href, &blk).build
     end
 
-    def relation(rel, &blk)
-      RelationContext.new(@resource, rel, &blk)
+    def resource
+      @resource
     end
 
     private
+    class RootContext
+      extend Forwardable
+
+      def_delegator :@resource, :set_property, :property
+      def_delegator :@resource, :add_link,     :link
+
+      def initialize(href=nil, &blk)
+        @resource = Halibut::HAL::Resource.new href
+
+        instance_eval &blk if block_given?
+      end
+
+      def resource(rel, href=nil, &blk)
+        embedded = Halibut::Builder.new href, &blk
+
+        @resource.embed_resource rel, embedded.resource
+      end
+
+      def relation(rel, &blk)
+        RelationContext.new(@resource, rel, &blk)
+      end
+
+      def build
+        @resource
+      end
+
+    end
+
     class RelationContext
 
       def initialize(resource, rel, &blk)
