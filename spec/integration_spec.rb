@@ -1,6 +1,7 @@
 require_relative 'spec_helper'
 
 require 'multi_json'
+require 'halibut/adapter/json'
 
 read_files = ->() {
   Dir.tap {|it| it.chdir('spec/test-resources/src/main/resources') } \
@@ -14,7 +15,7 @@ describe Halibut do
     files  = read_files[]
 
     refilled  = files.map {|f| MultiJson.load f }
-    resources = files.map {|f| Halibut::HAL::Resource.from_json f }.map &:to_hash
+    resources = files.map {|f| Halibut::Adapter::JSON.load f }.map &:to_hash
 
     zipped = refilled.zip resources
     zipped.each do |json, hal|
