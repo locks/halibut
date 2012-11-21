@@ -8,8 +8,9 @@ module Halibut
 
     attr_reader :resource
 
-    def_delegator :@resource, :set_property, :property
-    def_delegator :@resource, :add_link    , :link
+    def_delegator :@resource, :set_property,   :property
+    def_delegator :@resource, :add_link,       :link
+    def_delegator :@resource, :embed_resource, :embed
 
     def initialize(href=nil, &blk)
       @resource = Halibut::HAL::Resource.new href

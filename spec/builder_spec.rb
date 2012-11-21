@@ -45,7 +45,21 @@ describe Halibut::Builder do
   end
 
   it "builds resource with embedded resources" do
-    skip "Shouldn't be any harder that the rest"
+    builder = Halibut::Builder.new do
+      embed 'games', Halibut::Builder.new {
+        property :name,    'Crash Bandicoot'
+        property :console, 'PlayStation'
+      }.resource
+    end
+
+    game = Halibut::HAL::Resource.new
+    game.set_property(:name, 'Crash Bandicoot')
+    game.set_property(:console, 'PlayStation')
+
+    resource = Halibut::HAL::Resource.new
+    resource.embed_resource('games', game)
+
+    builder.resource.must_equal resource
   end
 
   describe "Relations" do
