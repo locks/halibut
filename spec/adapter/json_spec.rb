@@ -5,14 +5,15 @@ require 'halibut/adapter/json'
 describe Halibut::Adapter::JSON do
 
   it "serializes to JSON" do
-    subject = Halibut::HAL::Resource.new("http://example.com").to_json
-    json = load_json "simple"
+    resource = Halibut::HAL::Resource.new("http://example.com")
+    subject  = Halibut::Adapter::JSON.dump resource
+    json     = load_json "simple"
 
     MultiJson.load(subject).must_equal MultiJson.load(json)
   end
 
   it "deserializes from JSON" do
-    subject = Halibut::HAL::Resource.from_json(load_json "serialize")
+    subject = Halibut::Adapter::JSON.load(load_json "serialize")
 
     order = Halibut::HAL::Resource.new "/orders/123"
     order.set_property "total", 30.00
