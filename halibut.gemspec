@@ -20,10 +20,10 @@ Gem::Specification.new do |gem|
   gem.add_dependency "multi_json"
   gem.add_dependency "addressable"
 
-  gem.add_development_dependency "minitest"
-  gem.add_development_dependency "pry"
-  gem.add_development_dependency "pry-coolline"
-  gem.add_development_dependency "pry-rescue", '0.13'
+  gem.add_development_dependency "minitest", ">= 4.1"
+  gem.add_development_dependency "pry", ">= 0.9.10"
+  gem.add_development_dependency "pry-coolline", "0.1.5"
+  gem.add_development_dependency "pry-rescue", "0.13"
   gem.add_development_dependency "hash-differ"
 
   gem.add_development_dependency "guard"
