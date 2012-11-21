@@ -1,6 +1,6 @@
 require 'halibut/hal/resource'
 
-class Halibut::Adapter
+module Halibut::Adapter
 
   class JSON
     def initialize(halibut, resource)
