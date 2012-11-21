@@ -1,4 +1,4 @@
-require 'halibut/hal/resource'
+require 'multi_json'
 
 module Halibut::Adapter
 

@@ -1,6 +1,13 @@
 # Halibut
 
-TODO: Write a gem description
+Halibut is a tiny gem that makes it easier to deal with the [HAL](http://stateless.co/hal_specification.html) format.
+
+In providing tools to build, (de)serialize, and manipulate HAL resources,
+Halibut has the following goals:
+
+- Provide Ruby abstractions
+- Clean, small API
+- Easily composable, for use in other libraries
 
 ## Installation
 
