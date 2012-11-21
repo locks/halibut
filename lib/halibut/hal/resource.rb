@@ -74,21 +74,6 @@ module Halibut::HAL
       end
     end
 
-    # Returns resource as HAL+JSON.
-    #
-    # @return [String] resource as HAL+JSON
-    def to_json
-      Halibut::Adapter::JSON.dump self
-    end
-
-    # Returns an Halibut::Resource with the data present in the JSON received.
-    #
-    # @param  [String] resource JSON object to be parsed.
-    # @return [Halibut::HAL::Resource] resource generated from the data.
-    def self.from_json(resource)
-      Halibut::Adapter::JSON.load resource
-    end
-
     # Compares two resources.
     #
     # @param  [Halibut::HAL::Resource] other Resource to compare to
