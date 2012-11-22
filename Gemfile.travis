@@ -6,4 +6,6 @@ gemspec
 group :travis do
   gem "rake"
   gem "minitest"
+
+  gem "hash-differ"
 end
