@@ -4,14 +4,12 @@ module Halibut
 
   # Builder provides a very thin wrapper around creating a HAL resource.
   class Builder
-    extend Forwardable
+    attr_accessor :resource
 
     def initialize(href=nil, &blk)
-      @resource = RootContext.new(href, &blk).build
-    end
+      @resource = Halibut::HAL::Resource.new href
 
-    def resource
-      @resource
+      RootContext.new(@resource, &blk)
     end
 
     private
@@ -21,24 +19,21 @@ module Halibut
       def_delegator :@resource, :set_property, :property
       def_delegator :@resource, :add_link,     :link
 
-      def initialize(href=nil, &blk)
-        @resource = Halibut::HAL::Resource.new href
+      def initialize(resource, &blk)
+        @resource = resource
 
-        instance_eval &blk if block_given?
+        instance_eval(&blk) if block_given?
       end
 
+      private
       def resource(rel, href=nil, &blk)
-        embedded = Halibut::Builder.new href, &blk
+        embedded = Halibut::Builder.new(href, &blk)
 
-        @resource.embed_resource rel, embedded.resource
+        @resource.embed_resource(rel, embedded.resource)
       end
 
       def relation(rel, &blk)
         RelationContext.new(@resource, rel, &blk)
-      end
-
-      def build
-        @resource
       end
 
     end
@@ -49,11 +44,18 @@ module Halibut
         @resource = resource
         @rel      = rel
 
-        instance_eval(&blk)
+        instance_eval(&blk) if block_given?
       end
 
+      private
       def link(href, opts={})
-        @resource.add_link @rel, href, opts
+        @resource.add_link(@rel, href, opts)
+      end
+
+      def resource(href=nil, &blk)
+        embedded = Halibut::Builder.new(href, &blk)
+
+        @resource.embed_resource(@rel, embedded.resource)
       end
     end
 
