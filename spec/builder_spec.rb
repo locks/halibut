@@ -4,51 +4,88 @@ require_relative 'spec_helper'
 require 'hash'
 
 describe Halibut::Builder do
+  describe "Empty resource" do
+    it "builds empty resource with no self link" do
+      builder  = Halibut::Builder.new
+      resource = Halibut::HAL::Resource.new
 
-  it "builds empty resource" do
-    builder  = Halibut::Builder.new
-    resource = Halibut::HAL::Resource.new
-
-    builder.resource.must_equal resource
-  end
-
-  it "builds resource with default link" do
-    builder  = Halibut::Builder.new 'default'
-    resource = Halibut::HAL::Resource.new 'default'
-
-    builder.resource.must_equal resource
-  end
-
-  it "builds resource with links" do
-    builder = Halibut::Builder.new do
-      link 'cs:broms', '/broms/1'
-      link 'cs:broms', '/broms/2'
-      link 'cs:search', '/search{?broms,noms}', templated: true
+      builder.resource.must_equal resource
     end
 
-    resource = Halibut::HAL::Resource.new
-    resource.add_link 'cs:broms', '/broms/1'
-    resource.add_link 'cs:broms', '/broms/2'
-    resource.add_link 'cs:search', '/search{?broms,noms}', templated: true
+    it "builds empty resource with self link" do
+      builder  = Halibut::Builder.new 'default'
+      resource = Halibut::HAL::Resource.new 'default'
 
-    resource.must_equal builder.resource
+      builder.resource.must_equal resource
+    end
   end
 
-  it "builds resource with properties" do
-    builder = Halibut::Builder.new do
-      property 'foo', 'bar'
-      property 'baz', 'quux'
+  describe "Properties" do
+    it "builds resource with a single property" do
+      builder = Halibut::Builder.new do
+        property 'foo', 'bar'
+      end
+
+      resource = Halibut::HAL::Resource.new
+      resource.set_property 'foo', 'bar'
+
+      builder.resource.properties['foo'].must_equal 'bar'
+      builder.resource.must_equal resource
+    end
+    
+    it "builds resource with several properties" do
+      builder = Halibut::Builder.new do
+        property 'foo', 'bar'
+        property 'baz', 'quux'
+        property 'medals', { gold: 1, silver: 5, bronze: 10 }
+      end
+      
+      resource = Halibut::HAL::Resource.new
+      resource.set_property 'foo', 'bar'
+      resource.set_property 'baz', 'quux'
+      resource.set_property 'medals', { gold: 1, silver: 5, bronze: 10 }
+      
+      builder.resource.properties['foo'].must_equal 'bar'
+      builder.resource.properties['baz'].must_equal 'quux'
+      builder.resource.properties['medals'].must_equal({ gold: 1, silver: 5, bronze: 10 })
+      
+      builder.resource.must_equal resource
     end
 
-    resource = Halibut::HAL::Resource.new
-    resource.set_property 'foo', 'bar'
-    resource.set_property 'baz', 'quux'
+  end
 
-    resource.must_equal builder.resource
+  describe "Links" do
+    it "builds resource with a single links per relation" do
+      builder = Halibut::Builder.new do
+        link 'cs:broms', '/broms/1'
+        link 'cs:search', '/search{?broms,noms}', templated: true
+      end
+
+      resource = Halibut::HAL::Resource.new
+      resource.add_link 'cs:broms', '/broms/1'
+      resource.add_link 'cs:search', '/search{?broms,noms}', templated: true
+
+      resource.must_equal builder.resource
+    end
+
+    it "builds resource with multiple links per relation" do
+      builder = Halibut::Builder.new do
+        link 'cs:broms', '/broms/1'
+        link 'cs:broms', '/broms/2'
+        link 'cs:search', '/search{?broms,noms}', templated: true
+      end
+
+      resource = Halibut::HAL::Resource.new
+      resource.add_link 'cs:broms', '/broms/1'
+      resource.add_link 'cs:broms', '/broms/2'
+      resource.add_link 'cs:search', '/search{?broms,noms}', templated: true
+
+      resource.must_equal builder.resource
+    end
   end
 
   describe "Embedded resources" do
-    it "embeds a single resource" do
+    it "builds resource with a single resource per relation" do
       builder = Halibut::Builder.new do
         resource 'games', '/game/1' do
           property :name,    'Crash Bandicoot'
@@ -66,7 +103,7 @@ describe Halibut::Builder do
       builder.resource.must_equal resource, diff(builder.resource.to_hash, resource.to_hash)
     end
 
-    it "embeds a collection of resources" do
+    it "builds resource with multiple resourcer per relation" do
       builder = Halibut::Builder.new do
         resource 'games', '/game/1' do
           property :name,    'Crash Bandicoot'
@@ -94,7 +131,7 @@ describe Halibut::Builder do
     end
   end
 
-  describe "Relations" do
+  describe "Relation helper" do
     it "builds resource using relation DSL" do
       builder = Halibut::Builder.new do
         relation 'games' do
@@ -103,17 +140,27 @@ describe Halibut::Builder do
           link '/games/3'
         end
         link 'next', '/games/next'
+        relation 'users' do
+          resource '/users/1' do
+            property :name, "foo"
+            property :nick, "bar"
+          end
+        end
       end
+
+      user = Halibut::HAL::Resource.new '/users/1'
+      user.set_property :name, "foo"
+      user.set_property :nick, "bar"
 
       resource = Halibut::HAL::Resource.new
       resource.add_link 'games', '/games/1'
       resource.add_link 'games', '/games/2'
       resource.add_link 'games', '/games/3'
       resource.add_link 'next', '/games/next'
+      resource.embed_resource 'users', user
 
       builder.resource.must_equal resource
     end
-
   end
 
 end
