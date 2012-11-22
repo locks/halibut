@@ -35,6 +35,28 @@ describe Halibut::Adapter::JSON do
     subject.must_equal resource
   end
 
+  it "provides to_json helper" do
+    json = Halibut::Adapter::JSON.load(load_json "serialize")
+    json = Halibut::Adapter::JSON.dump(json)
+
+    order = Halibut::HAL::Resource.new "/orders/123"
+    order.set_property "total", 30.00
+    order.set_property "currency", "USD"
+    order.set_property "status", "shipped"
+
+    resource = Halibut::HAL::Resource.new "/orders"
+    resource.add_link "find", "/orders{?id}", templated: true
+    resource.add_link "next", "/orders/1", "name" => 'hotdog'
+    resource.add_link "next", "/orders/9"
+    resource.set_property "currentlyProcessing", 14
+    resource.set_property "shippedToday", 20
+    resource.embed_resource "orders", order
+
+    resource.to_json.wont_equal json
+    resource.extend Halibut::Adapter::JSON
+    resource.to_json.must_equal json
+  end
+
   it "tests against test-resources" do
     files  = read_files[]
 

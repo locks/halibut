@@ -2,20 +2,13 @@ require 'multi_json'
 
 module Halibut::Adapter
 
-  class JSON
-    def initialize(halibut, resource)
-      json    = MultiJson.load(resource)
-
-      links     = json.delete '_links'
-      resources = json.delete '_embedded'
-
-                    extract_properties halibut, json
-      links     and extract_links      halibut, links
-      resources and extract_resources  halibut, resources
+  module JSON
+    def self.extended(base)
+      base.extend InstanceMethods
     end
 
-    def self.load(resource)
-      Halibut::HAL::Resource.new.tap {|obj| self.new(obj, resource) }
+    def self.load(json)
+      ResourceExtractor.new(json).resource
     end
 
     def self.dump(resource)
@@ -23,33 +16,58 @@ module Halibut::Adapter
     end
 
     private
-    def extract_properties(halibut, json)
-      json.each_pair do |k,v|
-        halibut.set_property k, v
+    module InstanceMethods
+      def to_json
+        JSON.dump self.to_hash
+      end
+    end
+  end
+
+  private
+  class ResourceExtractor
+    def initialize(json)
+      @halibut = Halibut::HAL::Resource.new
+      json     = MultiJson.load(json)
+
+      links      = json.delete '_links'
+      resources  = json.delete '_embedded'
+      properties = json
+
+      properties and extract_properties properties
+      links      and extract_links      links
+      resources  and extract_resources  resources
+    end
+
+    def resource
+      @halibut
+    end
+
+    private
+    def extract_properties(properties)
+      properties.each_pair do |property, value|
+        @halibut.set_property(property, value)
       end
     end
 
-    def extract_links(halibut, links)
-      links.each do |relation,v|
-        link = [] << v
-        link = link.flatten
+    def extract_links(links)
+      links.each do |relation,values|
+        links = ([] << values).flatten
 
-        link.each do |attrs|
+        links.each do |attrs|
           href      = attrs.delete 'href'
-          halibut.add_link relation, href, attrs
+          @halibut.add_link(relation, href, attrs)
         end
-      end if links
+      end
     end
 
-    def extract_resources(halibut, resources)
-      resources.each do |relation,value|
-        res = [] << value
-        res = res.flatten
+    def extract_resources(resources)
+      resources.each do |relation,values|
+        embeds = ([] << values).flatten
 
-        res.each do |resource|
-          halibut.embed_resource relation, Halibut::Adapter::JSON.load(MultiJson.dump resource)
-        end
-      end if resources
+        embeds.map  {|embed| MultiJson.dump embed                     }
+              .map  {|embed| Halibut::Adapter::JSON.load embed        }
+              .each {|embed| @halibut.embed_resource(relation, embed) }
+      end
     end
 
   end
