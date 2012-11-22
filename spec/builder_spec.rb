@@ -30,26 +30,26 @@ describe Halibut::Builder do
       resource.set_property 'foo', 'bar'
 
       builder.resource.properties['foo'].must_equal 'bar'
-      builder.resource.must_equal resource
+      builder.resource.must_equal resource, diff(builder.resource.to_hash, resource.to_hash)
     end
-    
+
     it "builds resource with several properties" do
       builder = Halibut::Builder.new do
         property 'foo', 'bar'
         property 'baz', 'quux'
         property 'medals', { gold: 1, silver: 5, bronze: 10 }
       end
-      
+
       resource = Halibut::HAL::Resource.new
       resource.set_property 'foo', 'bar'
       resource.set_property 'baz', 'quux'
       resource.set_property 'medals', { gold: 1, silver: 5, bronze: 10 }
-      
+
       builder.resource.properties['foo'].must_equal 'bar'
       builder.resource.properties['baz'].must_equal 'quux'
       builder.resource.properties['medals'].must_equal({ gold: 1, silver: 5, bronze: 10 })
-      
-      builder.resource.must_equal resource
+
+      builder.resource.must_equal resource, diff(builder.resource.to_hash, resource.to_hash)
     end
 
   end
@@ -65,7 +65,7 @@ describe Halibut::Builder do
       resource.add_link 'cs:broms', '/broms/1'
       resource.add_link 'cs:search', '/search{?broms,noms}', templated: true
 
-      resource.must_equal builder.resource
+      resource.must_equal builder.resource, diff(builder.resource.to_hash, resource.to_hash)
     end
 
     it "builds resource with multiple links per relation" do
@@ -80,7 +80,7 @@ describe Halibut::Builder do
       resource.add_link 'cs:broms', '/broms/2'
       resource.add_link 'cs:search', '/search{?broms,noms}', templated: true
 
-      resource.must_equal builder.resource
+      resource.must_equal builder.resource, diff(builder.resource.to_hash, resource.to_hash)
     end
   end
 
@@ -159,7 +159,7 @@ describe Halibut::Builder do
       resource.add_link 'next', '/games/next'
       resource.embed_resource 'users', user
 
-      builder.resource.must_equal resource
+      builder.resource.must_equal resource, diff(builder.resource.to_hash, resource.to_hash)
     end
   end
 
