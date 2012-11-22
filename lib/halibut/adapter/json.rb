@@ -18,7 +18,7 @@ module Halibut::Adapter
     private
     module InstanceMethods
       def to_json
-        JSON.dump self.to_hash
+        MultiJson.dump self.to_hash
       end
     end
   end
