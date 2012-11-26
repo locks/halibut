@@ -163,4 +163,23 @@ describe Halibut::Builder do
     end
   end
 
+  describe "Namespace helper" do
+    let(:name) { 'cs' }
+    let(:href) { 'http://cs-api.herokuapp.com/rels/{rel}' }
+
+    it "builds resource using curie DSL" do
+      builder = Halibut::Builder.new do
+        namespace 'cs', 'http://cs-api.herokuapp.com/rels/{rel}'
+      end
+
+      builder = Halibut::Builder.new
+      builder.namespace 'cs', 'http://cs-api.herokuapp.com/rels/{rel}'
+
+      curie = builder.resource.links['curie'].first
+
+      curie.name.must_equal name
+      curie.href.must_equal href
+    end
+  end
+
 end

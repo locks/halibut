@@ -13,3 +13,7 @@ end
 def load_xml(filename)
   File.read(File.dirname(__FILE__)+"/fixtures/xml/#{filename}.xml")
 end
+
+def load_resource(filename)
+  File.read(File.dirname(__FILE__)+"/test-resources/src/main/resources/#{filename}")
+end

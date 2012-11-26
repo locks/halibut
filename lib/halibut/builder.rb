@@ -12,6 +12,14 @@ module Halibut
       RootContext.new(@resource, &blk)
     end
 
+    def respond_to?(meth, *args)
+      RootContext.new(@resource).respond_to? meth
+    end
+
+    def method_missing meth, *args
+      RootContext.new(@resource).send meth, *args
+    end
+
     private
     class RootContext
       extend Forwardable
@@ -25,7 +33,10 @@ module Halibut
         instance_eval(&blk) if block_given?
       end
 
-      private
+      def namespace(name, href)
+        @resource.add_link("curie", href, name: name)
+      end
+
       def resource(rel, href=nil, &blk)
         embedded = Halibut::Builder.new(href, &blk)
 
