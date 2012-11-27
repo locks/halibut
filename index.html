@@ -85,14 +85,42 @@ Halibut has the following goals:</p>
 
 <div class="highlight"><pre><span class="nb">require</span> <span class="s1">'halibut/builder'</span>
 
-<span class="no">Halibut</span><span class="o">::</span><span class="no">Builder</span><span class="o">.</span><span class="n">new</span> <span class="s1">'/orders'</span> <span class="k">do</span>
+<span class="n">builder</span> <span class="o">=</span> <span class="no">Halibut</span><span class="o">::</span><span class="no">Builder</span><span class="o">.</span><span class="n">new</span> <span class="s1">'/orders'</span> <span class="k">do</span>
     <span class="n">property</span> <span class="s1">'currentlyProcessing'</span><span class="p">,</span> <span class="mi">14</span>
     <span class="n">property</span> <span class="s1">'shippedToday'</span><span class="p">,</span> <span class="mi">20</span>
+
+    <span class="n">namespace</span> <span class="s1">'th'</span><span class="p">,</span> <span class="s1">'http://things-db.com/{rel}'</span>
 
     <span class="n">link</span> <span class="s1">'find'</span><span class="p">,</span> <span class="s1">'/orders{?id}'</span><span class="p">,</span> <span class="n">templated</span><span class="p">:</span> <span class="kp">true</span>
     <span class="n">link</span> <span class="s1">'next'</span><span class="p">,</span> <span class="s1">'/orders/1'</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">'hotdog'</span>
     <span class="n">link</span> <span class="s1">'next'</span><span class="p">,</span> <span class="s1">'/orders/9'</span>
+
+    <span class="n">link</span> <span class="s1">'th:manufacturer'</span><span class="p">,</span> <span class="s1">'/manufacturer/1'</span>
+    <span class="n">link</span> <span class="s1">'th:manufacturer'</span><span class="p">,</span> <span class="s1">'/manufacturer/2'</span>
+    <span class="n">link</span> <span class="s1">'th:manufacturer'</span><span class="p">,</span> <span class="s1">'/manufacturer/3'</span>
 <span class="k">end</span>
+
+<span class="c1"># alternatively</span>
+
+<span class="n">builder</span> <span class="o">=</span> <span class="no">Halibut</span><span class="o">::</span><span class="no">Builder</span><span class="o">.</span><span class="n">new</span> <span class="s1">'/orders'</span> <span class="k">do</span>
+    <span class="n">property</span> <span class="s1">'currentlyProcessing'</span><span class="p">,</span> <span class="mi">14</span>
+    <span class="n">property</span> <span class="s1">'shippedToday'</span><span class="p">,</span> <span class="mi">20</span>
+
+    <span class="n">namespace</span> <span class="s1">'th'</span><span class="p">,</span> <span class="s1">'http://things-db.com/{rel}'</span>
+
+    <span class="n">link</span> <span class="s1">'find'</span><span class="p">,</span> <span class="s1">'/orderes{?id}'</span><span class="p">,</span> <span class="n">templated</span><span class="p">:</span> <span class="kp">true</span>
+    <span class="n">relation</span> <span class="s1">'next'</span> <span class="k">do</span>
+        <span class="n">link</span> <span class="s1">'/orders/1'</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">'hotdog'</span>
+        <span class="n">link</span> <span class="s1">'/orders/9'</span>
+    <span class="k">end</span>
+    <span class="n">relation</span> <span class="s1">'th:manufacturer'</span> <span class="k">do</span>
+        <span class="n">link</span> <span class="s1">'/manufacturers/1'</span>
+        <span class="n">link</span> <span class="s1">'/manufacturers/2'</span>
+        <span class="n">link</span> <span class="s1">'/manufacturers/3'</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">resource</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">resource</span>
 </pre></div>
 
 <h3>JSON</h3>
@@ -106,10 +134,29 @@ Halibut has the following goals:</p>
 <span class="n">resource</span> <span class="o">=</span> <span class="no">Halibut</span><span class="o">::</span><span class="no">Adapter</span><span class="o">::</span><span class="no">JSON</span><span class="o">.</span><span class="n">load</span> <span class="s1">'resource.json'</span>
 </pre></div>
 
+<h3>XML</h3>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'halibut/adapter/xml'</span>
+
+<span class="c1"># converting to XML</span>
+<span class="c1"># Coming soon…</span>
+
+<span class="c1"># creating a resource from XML</span>
+<span class="n">resource</span> <span class="o">=</span> <span class="no">Halibut</span><span class="o">::</span><span class="no">Adapter</span><span class="o">::</span><span class="no">XML</span><span class="o">.</span><span class="n">load</span> <span class="s1">'resource.xml'</span>
+</pre></div>
+
 <h2>Contributing</h2>
 
 <ol>
-<li>Fork it</li>
+<li>Fork it
+
+<ol>
+<li><code>git submodule update --init</code></li>
+<li>
+<code>bundle install</code>, optionally pass <code>--without-development</code> and use your
+own tools</li>
+</ol>
+</li>
 <li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
 <li>Commit your changes (<code>git commit -am 'Added some feature'</code>)</li>
 <li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
