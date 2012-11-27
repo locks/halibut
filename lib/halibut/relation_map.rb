@@ -17,10 +17,13 @@ module Halibut
     # @param [String] relation relation that the object belongs to
     # @param [Object] item     the object to add to the relation
     def add(relation, item)
-      @relations[relation] = Array(@relations[relation]) << item
+      @relations[relation] = @relations[relation].to_a << item
     end
 
     # Returns a hash corresponding to the object.
+    #
+    # RelationMap doens't just return @relations because it needs to convert
+    # correctly when a relation only has a single item.
     #
     # @return [Hash] relation map in hash format
     def to_hash
