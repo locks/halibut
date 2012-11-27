@@ -48,6 +48,8 @@ describe Halibut::HAL::Link do
       link2.profile.must_equal  "profile"
       link2.title.must_equal    "title"
       link2.hreflang.must_equal "hreflang"
+
+      link1.must_equal link2
     end
   end
 end

@@ -24,7 +24,7 @@ module Halibut
     #
     # @return [Hash] relation map in hash format
     def to_hash
-      a = @relations.each_with_object({}) do |pair, obj|
+      @relations.each_with_object({}) do |pair, obj|
         key, *value = pair.flatten
 
         key = key.to_s
@@ -32,9 +32,6 @@ module Halibut
         obj[key] = value.map &:to_hash
         obj[key].length == 1 and obj[key] = obj[key].first
       end
-
     end
-
   end
-
 end

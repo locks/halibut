@@ -4,14 +4,14 @@ module Halibut::HAL
   #
   # spec spec spec
   class Resource
-    attr_reader :properties, :links
+    attr_reader :properties, :links, :embedded
 
     # TDK
     #
     # @param [String] href Link that will be added to the self relation.
     def initialize(href=nil)
       @links      = Halibut::RelationMap.new
-      @resources  = Halibut::RelationMap.new
+      @embedded   = Halibut::RelationMap.new
       @properties = {}
 
       add_link('self', href) if href
@@ -47,14 +47,7 @@ module Halibut::HAL
     # @param [String]   relation relation
     # @param [Resource] resource resource to embed
     def embed_resource(relation, resource)
-      @resources.add relation, resource
-    end
-
-    # Returns all embedded relations and their resources
-    #
-    # @return [Halibut::ResourceMap] embedded resources by relation
-    def embedded
-      @resources
+      @embedded.add relation, resource
     end
 
     # Hash representation of the resource.
@@ -63,8 +56,8 @@ module Halibut::HAL
     # @return [Hash] hash representation of the resource
     def to_hash
       {}.merge(@properties).tap do |h|
-        h['_links']    = {}.merge @links     unless @links.empty?
-        h['_embedded'] = {}.merge @resources unless @resources.empty?
+        h['_links']    = {}.merge @links    unless @links.empty?
+        h['_embedded'] = {}.merge @embedded unless @embedded.empty?
       end
     end
 
@@ -75,7 +68,7 @@ module Halibut::HAL
     def ==(other)
       @properties == other.properties &&
       @links      == other.links      &&
-      @resources  == other.embedded
+      @embedded   == other.embedded
     end
   end
 end
