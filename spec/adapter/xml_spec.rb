@@ -16,7 +16,7 @@ describe Halibut::Adapter::XML do
 
   it "deserializes from XML" do
     # skip "Test is failing god knows why."
-    builder = Halibut::Builder.new 'https://example.com/api/costumer/123456' do
+    builder = Halibut::Builder.new 'https://example.com/api/customer/123456' do
       property 'age', "33"
       property 'expired', "false"
       property 'id', "123456"
@@ -42,7 +42,7 @@ describe Halibut::Adapter::XML do
 
   it "provides to_xml helper" do
     skip "To Be Implemented"
-    
+
     xml = Halibut::Adapter::XML.load(load_resource 'exampleWithNullProperty.xml')
     xml = Halibut::Adapter::XML.dump(xml)
   end
