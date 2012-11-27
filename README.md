@@ -51,14 +51,42 @@ resource.embed_resource "orders", order
 ```ruby
 require 'halibut/builder'
 
-Halibut::Builder.new '/orders' do
+builder = Halibut::Builder.new '/orders' do
     property 'currentlyProcessing', 14
     property 'shippedToday', 20
+    
+    namespace 'th', 'http://things-db.com/{rel}'
     
     link 'find', '/orders{?id}', templated: true
     link 'next', '/orders/1', name: 'hotdog'
     link 'next', '/orders/9'
+    
+    link 'th:manufacturer', '/manufacturer/1'
+    link 'th:manufacturer', '/manufacturer/2'
+    link 'th:manufacturer', '/manufacturer/3'
 end
+
+# alternatively
+
+builder = Halibut::Builder.new '/orders' do
+    property 'currentlyProcessing', 14
+    property 'shippedToday', 20
+    
+    namespace 'th', 'http://things-db.com/{rel}'
+    
+    link 'find', '/orderes{?id}', templated: true
+    relation 'next' do
+        link '/orders/1', name: 'hotdog'
+        link '/orders/9'
+    end
+    relation 'th:manufacturer' do
+        link '/manufacturers/1'
+        link '/manufacturers/2'
+        link '/manufacturers/3'
+    end
+end
+
+resource = builder.resource
 ```
 
 ### JSON
@@ -72,9 +100,23 @@ Halibut::Adapter::JSON.dump resource
 resource = Halibut::Adapter::JSON.load 'resource.json'
 ```
 
+### XML
+```ruby
+require 'halibut/adapter/xml'
+
+# converting to XML
+# Coming soon…
+
+# creating a resource from XML
+resource = Halibut::Adapter::XML.load 'resource.xml'
+```
+
 ## Contributing
 
 1. Fork it
+    1. `git submodule update --init`
+    2. `bundle install`, optionally pass `--without-development` and use your
+       own tools
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
