@@ -3,10 +3,6 @@ require 'multi_json'
 module Halibut::Adapter
 
   module JSON
-    def self.extended(base)
-      base.extend InstanceMethods
-    end
-
     def self.load(json)
       ResourceExtractor.new(json).resource
     end
@@ -16,6 +12,10 @@ module Halibut::Adapter
     end
 
     private
+    def self.extended(base)
+      base.extend InstanceMethods
+    end
+
     module InstanceMethods
       def to_json
         MultiJson.dump self.to_hash
@@ -61,7 +61,7 @@ module Halibut::Adapter
       def extract_resources(resources)
         resources.each do |relation,values|
           embeds = ([] << values).flatten
-        
+
           embeds.map  {|embed| MultiJson.dump embed                     }
                 .map  {|embed| Halibut::Adapter::JSON.load embed        }
                 .each {|embed| @halibut.embed_resource(relation, embed) }
