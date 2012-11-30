@@ -15,7 +15,7 @@ describe Halibut::HAL::Resource do
     it "read property" do
       subject.set_property "property", "value"
 
-      subject.get_property('property').must_equal "value"
+      subject.property('property').must_equal "value"
     end
   end
 
@@ -24,6 +24,7 @@ describe Halibut::HAL::Resource do
     describe "self link" do
       it "no default" do
         subject.links.must_be_empty
+        subject.href.must_be_nil
       end
 
       it "default" do
@@ -31,6 +32,7 @@ describe Halibut::HAL::Resource do
 
         resource.links.wont_be_empty
         resource.links['self'].first.href.must_equal normal_uri
+        resource.href.must_equal normal_uri
       end
     end
 

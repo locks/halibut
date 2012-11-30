@@ -4,17 +4,46 @@ module Halibut::HAL
   #
   # spec spec spec
   class Resource
-    attr_reader :properties, :links, :embedded
 
-    # TDK
+    # All the properties set in this resource
+    attr_reader :properties
+
+    # A collection of links, grouped by relation
+    attr_reader :links
+
+    # A collection of embedded resources, grouped by relation.
+    attr_reader :embedded
+
+    # Initialize a new Resource.
+    #
+    # As defined in the spec, the resource SHOULD have a self link, but it
+    # isn't required.
+    # Also optionally, I'm toying with the idea of being able to pass in
+    # properties, links and embedded resources as parameters to this method,
+    # like suggested in https://github.com/locks/halibut/issues/1.
+    #
+    #     # Resource without self link (e.g. POSTing a new resource)
+    #     resource = Halibut::HAL::Resource.new
+    #     resource.set_property :name,   'Halibut Rules'
+    #     resource.set_property :winner, 'Tiger Blood'
+    #
+    #     # Resource with a self link
+    #     resource = Halibut::HAL::Resource.new
     #
     # @param [String] href Link that will be added to the self relation.
-    def initialize(href=nil)
+    def initialize(href=nil, properties={}, links={}, embedded={})
       @links      = Halibut::RelationMap.new
       @embedded   = Halibut::RelationMap.new
       @properties = {}
 
       add_link('self', href) if href
+    end
+
+    # Returns the self link of the resource.
+    #
+    # @return [String,nil] the self link of the resource
+    def href
+      @links.fetch('self', []).map(&:href).first
     end
 
     def namespace(name)
@@ -26,7 +55,12 @@ module Halibut::HAL
       @links['curie']
     end
 
-    # TDK
+    # Sets a property in the resource.
+    #
+    #     resource = Halibut::HAL::Resource.new
+    #     resource.set_property :name, 'FooBar'
+    #     resource.property :name
+    #     # => "FooBar"
     #
     # @param [Object] property the key
     # @param [Object] value    the value
@@ -36,12 +70,17 @@ module Halibut::HAL
 
     # Returns the value of a property in the resource
     #
+    #     resource = Halibut::HAL::Resource.new
+    #     resource.set_property :name, 'FooBar'
+    #     resource.property :name
+    #     # => "FooBar"
+    #
     # @param [String] property property
-    def get_property property
-      @properties[property]
+    def property(property)
+      @properties.fetch(property, nil)
     end
 
-    # Adds a namespace
+    # Adds a namespace to the resource.
     #
     # @param [String] name The name of the namespace
     # @param [String] href The templated URI of the namespace
@@ -49,12 +88,20 @@ module Halibut::HAL
       @links.add 'curie', Link.new(href, templated: true, name: name)
     end
 
-    # Adds link to relation
+    # Adds link to relation.
+    #
+    #     resource = Halibut::HAL::Resource.new
+    #     resource.add_link 'next', '/resource/2', name: 'Foo'
+    #     link = resource.links['next'].first
+    #     link.href
+    #     # => "/resource/2"
+    #     link.name
+    #     # => "Foo"
     #
     # @param [String]      relation  relation
     # @param [String]      href      href
-    # @param [true, false] templated templated
-    # @param [Hash]        opts      options: name, type, hreflang
+    # @param [Hash]        opts      options: templated, type, name, profile,
+    #                                  title, hreflang
     def add_link(relation, href, opts={})
       @links.add relation, Link.new(href, opts)
     end

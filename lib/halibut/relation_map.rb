@@ -6,7 +6,7 @@ module Halibut
   class RelationMap
     extend Forwardable
 
-    def_delegators :@relations, :[], :empty?, :==
+    def_delegators :@relations, :[], :empty?, :==, :fetch
 
     def initialize
       @relations = {}

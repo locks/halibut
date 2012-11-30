@@ -5,10 +5,12 @@ module Halibut::HAL
   class Link
     extend Forwardable
 
+    # The URI associated with this link.
     attr_reader :href
 
     def_delegators :@options, :templated, :templated?, :type,
                    :name, :profile, :title, :hreflang
+
     # Returns an instance of a HAL Link object
     #
     #     # link with no options
