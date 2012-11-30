@@ -4,7 +4,8 @@ module Halibut
 
   # Builder provides a very thin wrapper around creating a HAL resource.
   class Builder
-    attr_accessor :resource
+
+    attr_reader :resource
 
     def initialize(href=nil, &blk)
       @resource = Halibut::HAL::Resource.new href
@@ -34,7 +35,7 @@ module Halibut
       end
 
       def namespace(name, href)
-        @resource.add_link("curie", href, name: name)
+        @resource.add_namespace(name, href)
       end
 
       def resource(rel, href=nil, &blk)
@@ -58,7 +59,6 @@ module Halibut
         instance_eval(&blk) if block_given?
       end
 
-      private
       def link(href, opts={})
         @resource.add_link(@rel, href, opts)
       end

@@ -17,6 +17,15 @@ module Halibut::HAL
       add_link('self', href) if href
     end
 
+    def namespace(name)
+      @links['curie'].select {|ns| ns.name == name }.first
+    end
+    alias_method :ns, :namespace
+
+    def namespaces
+      @links['curie']
+    end
+
     # TDK
     #
     # @param [Object] property the key
@@ -30,6 +39,14 @@ module Halibut::HAL
     # @param [String] property property
     def get_property property
       @properties[property]
+    end
+
+    # Adds a namespace
+    #
+    # @param [String] name The name of the namespace
+    # @param [String] href The templated URI of the namespace
+    def add_namespace(name, href)
+      @links.add 'curie', Link.new(href, templated: true, name: name)
     end
 
     # Adds link to relation

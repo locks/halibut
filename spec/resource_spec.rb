@@ -1,12 +1,11 @@
 require_relative 'spec_helper'
 
 describe Halibut::HAL::Resource do
+  subject { Halibut::HAL::Resource.new }
   let(:templated_uri) { "http://example.com/{path}{?query}" }
   let(:normal_uri)    { "http://example.com" }
 
   describe "Properties" do
-    subject { Halibut::HAL::Resource.new }
-
     it "set property" do
       subject.set_property "property", "value"
 
@@ -24,8 +23,7 @@ describe Halibut::HAL::Resource do
 
     describe "self link" do
       it "no default" do
-        resource = Halibut::HAL::Resource.new
-        resource.links.must_be_empty
+        subject.links.must_be_empty
       end
 
       it "default" do
@@ -36,6 +34,43 @@ describe Halibut::HAL::Resource do
       end
     end
 
+    it "adds link to resource" do
+      subject.links.must_be_empty
+
+      subject.add_link 'lol', normal_uri
+      subject.links['lol'].first.href.must_equal normal_uri
+    end
+
+  end
+
+  describe "Namespaces" do
+    let(:href) { 'http://relations.com/{rel}' }
+
+    it "has a single namespace" do
+      subject.add_namespace 'lol', href
+
+      subject.namespaces.size.must_equal 1
+      subject.namespaces.first.must_equal subject.namespace('lol')
+
+      subject.namespace('lol').must_be :templated?
+      subject.namespace('lol').href.must_equal href
+      subject.namespace('lol').name.must_equal 'lol'
+    end
+
+    it "has multiple namespaces" do
+      subject.add_namespace 'lol', "http://lol.com/{rel}"
+      subject.add_namespace 'lmao', "http://lmao.com/{rel}"
+
+      subject.namespaces.size.must_equal 2
+
+      subject.namespace('lol').must_be :templated?
+      subject.namespace('lol').href.must_equal 'http://lol.com/{rel}'
+      subject.namespace('lol').name.must_equal 'lol'
+
+      subject.namespace('lmao').must_be :templated?
+      subject.namespace('lmao').href.must_equal 'http://lmao.com/{rel}'
+      subject.namespace('lmao').name.must_equal 'lmao'
+    end
   end
 
   describe "Embedded resources" do
