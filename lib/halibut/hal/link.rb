@@ -25,7 +25,6 @@ module Halibut::HAL
     # It should possibly raise an error, hafta think about it.
     #
     # @param [String]  href      URI or URI Template
-    # @param [Boolean] templated true if URI Template or false otherwise
     # @param [Hash]    opts      Options: type, name, profile, title, hreflang
     #
     # @return [Halibut::HAL::Link] HAL Link object
