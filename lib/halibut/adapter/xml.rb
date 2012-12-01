@@ -3,10 +3,6 @@ require 'nokogiri'
 module Halibut::Adapter
 
   module XML
-    def self.extended(base)
-      base.extend InstanceMethods
-    end
-
     def self.load(xml)
       ResourceExtractor.new(xml).resource
     end
@@ -15,6 +11,10 @@ module Halibut::Adapter
     end
 
     private
+    def self.extended(base)
+      base.extend InstanceMethods
+    end
+
     module InstanceMethods
       def to_xml
       end
@@ -26,8 +26,6 @@ module Halibut::Adapter
 
         @document = xml.root
         @halibut  = Halibut::HAL::Resource.new extract_self_link
-
-        # binding.pry
 
         extract_curie
         extract_properties
