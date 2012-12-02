@@ -63,11 +63,8 @@ module Halibut::Adapter
         links = @document.xpath('/resource/link')
 
         links.each do |link|
-          @halibut.add_link link.attribute('rel').value,
-                            link.attribute('href').value,
-                            extract_link_options(link)
-          @resource.add_link link.attribute('rel').value,
-                             link.attribute('href').value,
+          @resource.add_link link['rel'],
+                             link['href'],
                              extract_link_options(link)
         end
       end
@@ -82,7 +79,7 @@ module Halibut::Adapter
       def extract_resources
         @document.xpath('/resource/resource')
                  .map  {|r| [] << r['rel'] << ResourceExtractor.new(r.to_xml).resource }
-                 .each {|rel,res| @halibut.embed_resource rel, res }
+                 .each {|rel,res| @resource.embed_resource rel, res }
       end
     end
   end
