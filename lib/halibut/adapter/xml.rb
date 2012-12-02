@@ -8,6 +8,7 @@ module Halibut::Adapter
     end
 
     def self.dump(resource)
+      raise NotImplementedError
     end
 
     private
@@ -17,24 +18,24 @@ module Halibut::Adapter
 
     module InstanceMethods
       def to_xml
+        raise NotImplementedError
       end
     end
 
     class ResourceExtractor
+
+      attr_reader :resource
+
       def initialize(xml)
         xml = Nokogiri::XML(xml)
 
         @document = xml.root
-        @halibut  = Halibut::HAL::Resource.new extract_self_link
+        @resource = Halibut::HAL::Resource.new extract_self_link
 
         extract_curie
         extract_properties
         extract_links
         extract_resources
-      end
-
-      def resource
-        @halibut
       end
 
       private
@@ -46,7 +47,7 @@ module Halibut::Adapter
         @document.namespace_scopes
                  .reject {|ns| ns.prefix.eql? 'xsi' }
                  .each do |ns|
-          @halibut.add_link 'curie', ns.href, name: ns.prefix
+          @resource.add_link 'curie', ns.href, name: ns.prefix
         end
       end
 
@@ -54,7 +55,7 @@ module Halibut::Adapter
         properties = @document.xpath '/resource/*[not(self::link) and not(self::resource)]'
 
         properties.each do |property|
-          @halibut.set_property property.name, property.content
+          @resource.set_property property.name, property.content
         end
       end
 
@@ -65,6 +66,9 @@ module Halibut::Adapter
           @halibut.add_link link.attribute('rel').value,
                             link.attribute('href').value,
                             extract_link_options(link)
+          @resource.add_link link.attribute('rel').value,
+                             link.attribute('href').value,
+                             extract_link_options(link)
         end
       end
 
