@@ -121,12 +121,7 @@ module Halibut::HAL
       # @param [Options] other Options object to compare to.
       # @return [true,false] whether these two objects are equivalent or not.
       def ==(other)
-        templated == other.templated &&
-        type      == other.type      &&
-        name      == other.name      &&
-        profile   == other.profile   &&
-        title     == other.title     &&
-        hreflang  == other.hreflang
+        to_hash == other.to_hash
       end
     end
   end
