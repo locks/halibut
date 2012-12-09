@@ -1,5 +1,7 @@
 # Halibut
 
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/locks/halibut)
+
 Halibut is a tiny gem that makes it easier to deal with the [HAL](http://stateless.co/hal_specification.html) format.
 
 In providing tools to build, (de)serialize, and manipulate HAL resources,
