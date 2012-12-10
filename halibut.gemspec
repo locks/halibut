@@ -36,5 +36,4 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency "rb-fsevent"
   gem.add_development_dependency "terminal-notifier-guard"
-
 end
