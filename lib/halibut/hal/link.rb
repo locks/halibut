@@ -29,7 +29,7 @@ module Halibut::HAL
     #
     # @return [Halibut::HAL::Link] HAL Link object
     def initialize(href, opts={})
-      @href = href
+      @href    = href
       @options = Options.new opts
     end
 
@@ -102,12 +102,13 @@ module Halibut::HAL
       # that were explicitely set to nil. On the other hand, one can argue that
       # if they were explicitly set to nil, then they shouldn't show up anyway.
       def to_hash
-        instance_variables.each_with_object({}) do |name, output|
-          ivar = ivar = instance_variable_get(name)
+        instance_variables.each_with_object({}) do |ivar, hash|
+          name  = ivar.to_s.reverse.chomp("@").reverse
+          value = instance_variable_get(ivar)
 
-          next if ivar.nil?
+          next if value.nil?
 
-          output[name[1..-1]] = ivar
+          hash[name] = value
         end
       end
 

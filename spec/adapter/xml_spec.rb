@@ -15,7 +15,6 @@ describe Halibut::Adapter::XML do
   end
 
   it "deserializes from XML" do
-    # skip "Test is failing god knows why."
     builder = Halibut::Builder.new 'https://example.com/api/customer/123456' do
       property 'age', "33"
       property 'expired', "false"
