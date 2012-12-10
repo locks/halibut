@@ -71,9 +71,8 @@ module Halibut::Adapter
 
       # In case there are no options on the link, it returns an empty hash
       def extract_link_options(link)
-        link.attributes.reject {|k,v| k=='rel' || k=='href' }
-            .map    {|k,v| { k => v.value } }
-            .reduce(:merge) || {}
+        Hash[link.reject {|(key)| key.eql? 'rel'  }
+                 .reject {|(key)| key.eql? 'href' }]
       end
 
       def extract_resources
