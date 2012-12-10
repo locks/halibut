@@ -14,6 +14,9 @@ module Halibut::HAL
     # A collection of embedded resources, grouped by relation.
     attr_reader :embedded
 
+    # A collection of namespaces defined in the document
+    attr_reader :namespace
+
     # Initialize a new Resource.
     #
     # As defined in the spec, the resource SHOULD have a self link, but it
@@ -32,6 +35,7 @@ module Halibut::HAL
     #
     # @param [String] href Link that will be added to the self relation.
     def initialize(href=nil, properties={}, links={}, embedded={})
+      @namespaces = Halibut::RelationMap.new
       @links      = Halibut::RelationMap.new
       @embedded   = Halibut::RelationMap.new
       @properties = {}
