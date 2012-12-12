@@ -22,20 +22,16 @@ describe Halibut::HAL::Link do
 
   describe "optionals" do
     it "are set correctly" do
-      link1 = Halibut::HAL::Link.new normal_uri, {
-        :type     => 'type',
-        :name     => 'name',
-        :profile  => 'profile',
-        :title    => 'title',
-        :hreflang => 'hreflang'
-      }
-      link2 = Halibut::HAL::Link.new normal_uri, {
-        :type     => 'type',
-        :name     => 'name',
-        :profile  => 'profile',
-        :title    => 'title',
-        :hreflang => 'hreflang'
-      }
+      link1 = Halibut::HAL::Link.new normal_uri, type:     'type',
+                                                 name:     'name',
+                                                 profile:  'profile',
+                                                 title:    'title',
+                                                 hreflang: 'hreflang'
+      link2 = Halibut::HAL::Link.new normal_uri, type:     'type',
+                                                 name:     'name',
+                                                 profile:  'profile',
+                                                 title:    'title',
+                                                 hreflang: 'hreflang'
 
       link1.type.must_equal     "type"
       link1.name.must_equal     "name"
