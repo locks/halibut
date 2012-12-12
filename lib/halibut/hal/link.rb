@@ -29,10 +29,9 @@ module Halibut::HAL
     # @param [Hash]    opts      Options: type, name, profile, title, hreflang
     #
     # @return [Halibut::HAL::Link] HAL Link object
-    def initialize(href, templated:nil, type:nil, name:nil,
-                         profile:nil, title:nil, hreflang:nil)
+    def initialize(href, **options)
       @href    = href
-      @options = Options.new templated, type, name, profile, title, hreflang
+      @options = Options.new options
     end
 
     # Simply returns a hash of the href and the options that are not empty.
