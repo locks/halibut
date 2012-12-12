@@ -23,11 +23,11 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency "minitest", ">= 4.1"
 
-  gem.add_development_dependency "pry", ">= 0.9.10"
-  gem.add_development_dependency "pry-doc"
-  gem.add_development_dependency "pry-stack_explorer"
-  gem.add_development_dependency "pry-coolline", "0.1.5"
-  gem.add_development_dependency "pry-rescue", "0.13"
+  # gem.add_development_dependency "pry", ">= 0.9.10"
+  # gem.add_development_dependency "pry-doc"
+  # gem.add_development_dependency "pry-stack_explorer"
+  # gem.add_development_dependency "pry-coolline", "0.1.5"
+  # gem.add_development_dependency "pry-rescue", "0.13"
   gem.add_development_dependency "hash-differ"
 
   gem.add_development_dependency "guard"
