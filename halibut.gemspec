@@ -21,7 +21,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency "nokogiri"
   gem.add_dependency "addressable"
 
-  gem.add_development_dependency "minitest", ">= 4.1"
+  # this version of minitest adds parallelization
+  gem.add_development_dependency "minitest", ">= 4.2"
 
   gem.add_development_dependency "pry", ">= 0.9.10"
   gem.add_development_dependency "pry-doc"
