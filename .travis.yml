@@ -1,6 +1,5 @@
 language: ruby
-gemfile: Gemfile.travis
-bundler_args: --without development
+bundler_args: --without testing
 rvm:
   - 1.9.2
   - 1.9.3

@@ -23,18 +23,6 @@ Gem::Specification.new do |gem|
 
   # this version of minitest adds parallelization
   gem.add_development_dependency "minitest", ">= 4.2"
-
-  gem.add_development_dependency "pry", ">= 0.9.10"
-  gem.add_development_dependency "pry-doc"
-  gem.add_development_dependency "pry-stack_explorer"
-  gem.add_development_dependency "pry-coolline", "0.1.5"
-  gem.add_development_dependency "pry-rescue", "0.13"
   gem.add_development_dependency "hash-differ"
 
-  gem.add_development_dependency "guard"
-  gem.add_development_dependency "guard-bundler"
-  gem.add_development_dependency "guard-minitest"
-
-  gem.add_development_dependency "rb-fsevent"
-  gem.add_development_dependency "terminal-notifier-guard"
 end
