@@ -25,7 +25,7 @@ module Halibut
     # @param [String] relation relation that the object belongs to
     # @param [Object] item     the object to add to the relation
     def add(relation, item)
-      @relations[relation] = @relations[relation].to_a << item
+      @relations[relation] = @relations.fetch(relation, []) << item
     end
 
     # Returns a hash corresponding to the object.
@@ -35,13 +35,11 @@ module Halibut
     #
     # @return [Hash] relation map in hash format
     def to_hash
-      @relations.each_with_object({}) do |pair, obj|
-        key, *value = pair.flatten
+      @relations.each_with_object({}) do |(rel,val), obj|
+        rel = rel.to_s
+        val = val.length == 1 ? val.first.to_hash : val.map(&:to_hash)
 
-        key = key.to_s
-
-        obj[key] = value.map &:to_hash
-        obj[key].length == 1 and obj[key] = obj[key].first
+        obj[rel] = val
       end
     end
   end
