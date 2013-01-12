@@ -1,4 +1,5 @@
 require 'halibut/relation_map'
+require 'halibut/hal/link'
 
 module Halibut::HAL
 

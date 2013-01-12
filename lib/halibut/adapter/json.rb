@@ -25,15 +25,11 @@ module Halibut::Adapter
     class ResourceExtractor
       def initialize(json)
         @halibut = Halibut::HAL::Resource.new
-        json     = MultiJson.load(json)
+        @json    = MultiJson.load(json)
 
-        links      = json.delete '_links'
-        resources  = json.delete '_embedded'
-        properties = json
-
-        properties and extract_properties properties
-        links      and extract_links      links
-        resources  and extract_resources  resources
+        extract_properties
+        extract_links
+        extract_embedded_resources
       end
 
       def resource
@@ -41,24 +37,31 @@ module Halibut::Adapter
       end
 
       private
-      def extract_properties(properties)
+      def extract_properties
+        properties = @json.reject {|k,v| k == '_links'    }
+                          .reject {|k,v| k == '_embedded' }
+
         properties.each_pair do |property, value|
           @halibut.set_property(property, value)
         end
       end
 
-      def extract_links(links)
-        links.each do |relation,values|
-          links = ([] << values).flatten
+      def extract_links
+        links = @json.fetch('_links', [])
 
-          links.each do |attrs|
+        links.each do |relation,values|
+          link = ([] << values).flatten
+
+          link.each do |attrs|
             href      = attrs.delete 'href'
             @halibut.add_link(relation, href, attrs)
           end
         end
       end
 
-      def extract_resources(resources)
+      def extract_embedded_resources
+        resources = @json.fetch('_embedded', [])
+
         resources.each do |relation,values|
           embeds = ([] << values).flatten
 
