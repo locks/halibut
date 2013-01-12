@@ -8,13 +8,7 @@ group :travis do
 end
 
 group :testing do
-  gem "guard"
-
   gem "pry", ">= 0.9.10"
-  gem "pry-doc"
-  gem "pry-stack_explorer"
-  gem "pry-coolline", "0.1.5"
-  gem "pry-rescue", "0.13"
 
   gem "guard"
   gem "guard-bundler"
@@ -22,4 +16,8 @@ group :testing do
 
   gem "rb-fsevent"
   gem "terminal-notifier-guard"
+end
+
+group :script do
+  gem "rest-client"
 end

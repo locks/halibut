@@ -1,5 +1,7 @@
 require_relative 'spec_helper'
 
+require 'halibut/hal/link'
+
 describe Halibut::HAL::Link do
   let(:normal_uri) { 'http://example.com'      }
   let(:tmpl_uri)   { 'http://example.com/{id}' }

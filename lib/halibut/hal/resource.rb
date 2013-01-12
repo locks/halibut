@@ -1,3 +1,5 @@
+require 'halibut/relation_map'
+
 module Halibut::HAL
 
   # This class represents a HAL Resource object.
