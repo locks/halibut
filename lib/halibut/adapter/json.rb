@@ -33,16 +33,27 @@ module Halibut::Adapter
     end
 
     private
+
+    # @deprecated Please use Halibut::Adapter::JSON.dump instead.
     def self.extended(base)
       base.extend InstanceMethods
     end
 
     module InstanceMethods
+      # @deprecated This might go.
       def to_json
         MultiJson.dump self.to_hash
       end
     end
 
+    # ResourceExtractor is responsible for deserializing an HAL resource
+    # from the JSON representation.
+    #
+    #     extractor = ResourceExtractor.new({})
+    #     # => #<Halibut::Adapter::JSON::ResourceExtractor:0x007f8adb92f2a8
+    #     extractor.resource
+    #     # => #<Halibut::HAL::Resource:0x007f8add058fb0
+    #
     class ResourceExtractor
       def initialize(json)
         @halibut = Halibut::Core::Resource.new
