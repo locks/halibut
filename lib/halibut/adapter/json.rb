@@ -42,6 +42,7 @@ module Halibut::Adapter
     module InstanceMethods
       # @deprecated This might go.
       def to_json
+        warn "[Deprecation] Don't depend on this, as it might disappear soon."
         MultiJson.dump self.to_hash
       end
     end
