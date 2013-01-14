@@ -4,11 +4,30 @@ require 'halibut/core'
 
 module Halibut::Adapter
 
+  # This adapter converts Halibut::HAL::Resources to JSON encoded strings and back.
+  #
+  #     resource = Halibut::Builder.new('http://example.com') do
+  #       link "posts", '/posts'
+  #       link "author", 'http://locks.io'
+  #
+  #       property "title", 'Entry point'
+  #     end.resource
+  #
+  #     dumped = Halibut::Adapter::JSON.dump resource
+  #     # => "{\"title\":\"Entry point\",\"_links\":{\"self\":{\"href\":\"http://example.com\"},\"posts\":{\"href\":\"/posts\"},\"author\":{\"href\":\"http://locks.io\"}}}"
+  #
+  #     loaded = Halibut::Adapter::JSON.load dumped
+  #     resource == loaded
+  #     # => true
+  #
   module JSON
+
+    # Returns an Halibut::HAL::Resource from a JSON string
     def self.load(json)
       ResourceExtractor.new(json).resource
     end
 
+    # Returns a JSON string representation of an Halibut::HAL::Resource
     def self.dump(resource)
       MultiJson.dump resource.to_hash
     end
