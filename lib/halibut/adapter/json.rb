@@ -56,6 +56,13 @@ module Halibut::Adapter
     #     # => #<Halibut::HAL::Resource:0x007f8add058fb0
     #
     class ResourceExtractor
+
+      # Straight-forward, just pass in the JSON string you want to extract the
+      # resource from.
+      #
+      #     json = '{"_links":{"self":{"href":"http://example.com"}}}'
+      #     ResourceExtractor.new('{}')
+      #
       def initialize(json)
         @halibut = Halibut::Core::Resource.new
         @json    = MultiJson.load(json)
@@ -65,6 +72,7 @@ module Halibut::Adapter
         extract_embedded_resources
       end
 
+      # This method should be called when the the resource extracted is needed
       def resource
         @halibut
       end
