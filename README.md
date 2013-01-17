@@ -1,8 +1,9 @@
 # Halibut [![endorse](http://api.coderwall.com/locks/endorsecount.png)](http://coderwall.com/locks)
 
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/locks/halibut)
-[![Build Status](https://secure.travis-ci.org/locks/halibut.png?branch=master)](https://travis-ci.org/locks/halibut)
+[![Gem Version](https://badge.fury.io/rb/halibut.png)](http://badge.fury.io/rb/halibut)
+[![Build Status](https://secure.travis-ci.org/locks/halibut.png?branch=master)](https://travis-ci.org/locks/halibut)
 [![Dependency Status](https://gemnasium.com/locks/halibut.png)](https://gemnasium.com/locks/halibut)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/locks/halibut)
 
 Halibut is a tiny gem that makes it easier to deal with the [HAL](http://stateless.co/hal_specification.html) format.
 
