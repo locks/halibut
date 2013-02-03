@@ -24,7 +24,7 @@ module Halibut::Adapter
 
     class ResourceExtractor
       def initialize(json)
-        @halibut = Halibut::HAL::Resource.new
+        @halibut = Halibut::Core::Resource.new
         @json    = MultiJson.load(json)
 
         extract_properties

@@ -1,7 +1,9 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Halibut::HAL::Resource do
-  subject { Halibut::HAL::Resource.new }
+require 'halibut/core/resource'
+
+describe Halibut::Core::Resource do
+  subject { Halibut::Core::Resource.new }
   let(:templated_uri) { "http://example.com/{path}{?query}" }
   let(:normal_uri)    { "http://example.com" }
 
@@ -10,6 +12,11 @@ describe Halibut::HAL::Resource do
       subject.set_property "property", "value"
 
       subject.properties['property'].must_equal "value"
+    end
+
+    it "fails to set reserved property" do
+      -> { subject.set_property "_links", "lol" }.must_raise ArgumentError
+      -> { subject.set_property "_embedded", "lol" }.must_raise ArgumentError
     end
 
     it "read property" do
@@ -28,7 +35,7 @@ describe Halibut::HAL::Resource do
       end
 
       it "default" do
-        resource = Halibut::HAL::Resource.new normal_uri
+        resource = Halibut::Core::Resource.new normal_uri
 
         resource.links.wont_be_empty
         resource.links['self'].first.href.must_equal normal_uri
@@ -76,9 +83,9 @@ describe Halibut::HAL::Resource do
   end
 
   describe "Embedded resources" do
-    subject    { Halibut::HAL::Resource.new }
-    let(:res1) { Halibut::HAL::Resource.new "http://first-resource.com" }
-    let(:res2) { Halibut::HAL::Resource.new "http://secnd-resource.com" }
+    subject    { Halibut::Core::Resource.new }
+    let(:res1) { Halibut::Core::Resource.new "http://first-resource.com" }
+    let(:res2) { Halibut::Core::Resource.new "http://secnd-resource.com" }
 
     it "no embedded resource" do
       subject.embedded.must_be_empty

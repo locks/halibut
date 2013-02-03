@@ -1,7 +1,9 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-describe Halibut::RelationMap do
-  subject { Halibut::RelationMap.new }
+require 'halibut/core/relation_map'
+
+describe Halibut::Core::RelationMap do
+  subject { Halibut::Core::RelationMap.new }
 
   it "is empty" do
     subject.must_be_empty

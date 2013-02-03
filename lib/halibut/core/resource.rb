@@ -1,7 +1,7 @@
-require 'halibut/relation_map'
-require 'halibut/hal/link'
+require 'halibut/core/relation_map'
+require 'halibut/core/link'
 
-module Halibut::HAL
+module Halibut::Core
 
   # This class represents a HAL Resource object.
   #
@@ -29,18 +29,18 @@ module Halibut::HAL
     # like suggested in https://github.com/locks/halibut/issues/1.
     #
     #     # Resource without self link (e.g. POSTing a new resource)
-    #     resource = Halibut::HAL::Resource.new
+    #     resource = Halibut::Core::Resource.new
     #     resource.set_property :name,   'Halibut Rules'
     #     resource.set_property :winner, 'Tiger Blood'
     #
     #     # Resource with a self link
-    #     resource = Halibut::HAL::Resource.new
+    #     resource = Halibut::Core::Resource.new
     #
     # @param [String] href Link that will be added to the self relation.
     def initialize(href=nil, properties={}, links={}, embedded={})
-      @namespaces = Halibut::RelationMap.new
-      @links      = Halibut::RelationMap.new
-      @embedded   = Halibut::RelationMap.new
+      @namespaces = RelationMap.new
+      @links      = RelationMap.new
+      @embedded   = RelationMap.new
       @properties = {}
 
       add_link('self', href) if href
@@ -64,7 +64,7 @@ module Halibut::HAL
 
     # Sets a property in the resource.
     #
-    #     resource = Halibut::HAL::Resource.new
+    #     resource = Halibut::Core::Resource.new
     #     resource.set_property :name, 'FooBar'
     #     resource.property :name
     #     # => "FooBar"
@@ -72,19 +72,27 @@ module Halibut::HAL
     # @param [Object] property the key
     # @param [Object] value    the value
     def set_property(property, value)
-      @properties[property] = value
+      if property == '_links' || property == '_embedded'
+        raise ArgumentError, "Argument #{property} is a reserved property"
+      end
+
+      tap { @properties[property] = value }
+    end
+
+    def []=(property, value)
+      tap { @properties[property] = value }
     end
 
     # Returns the value of a property in the resource
     #
-    #     resource = Halibut::HAL::Resource.new
+    #     resource = Halibut::Core::Resource.new
     #     resource.set_property :name, 'FooBar'
     #     resource.property :name
     #     # => "FooBar"
     #
     # @param [String] property property
     def property(property)
-      @properties.fetch(property, nil)
+      tap { @properties.fetch(property, nil) }
     end
 
     # Adds a namespace to the resource.
@@ -97,7 +105,7 @@ module Halibut::HAL
 
     # Adds link to relation.
     #
-    #     resource = Halibut::HAL::Resource.new
+    #     resource = Halibut::Core::Resource.new
     #     resource.add_link 'next', '/resource/2', name: 'Foo'
     #     link = resource.links['next'].first
     #     link.href
@@ -134,7 +142,7 @@ module Halibut::HAL
 
     # Compares two resources.
     #
-    # @param  [Halibut::HAL::Resource] other Resource to compare to
+    # @param  [Halibut::Core::Resource] other Resource to compare to
     # @return [true, false]                  Result of the comparison
     def ==(other)
       @properties == other.properties &&

@@ -1,4 +1,4 @@
-module Halibut
+module Halibut::Core
 
   # This is an abstract map with behaviour specific to HAL.
   #
@@ -17,8 +17,8 @@ module Halibut
     #     relations = RelationMap.new
     #     relations.add 'self', Link.new('/resource/1')
     #     relations['self']
-    #     # => [#<Halibut::HAL::Link:0x007fa0ca5b92b8 @href=\"/resource/1\",
-    #          @options=#<Halibut::HAL::Link::Options:0x007fa0ca5b9240
+    #     # => [#<Halibut::Core::Link:0x007fa0ca5b92b8 @href=\"/resource/1\",
+    #          @options=#<Halibut::Core::Link::Options:0x007fa0ca5b9240
     #          @templated=nil, @type=nil, @name=nil, @profile=nil,
     #          @title=nil, @hreflang=nil>>]
     #

@@ -1,21 +1,21 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
-require 'halibut/hal/link'
+require 'halibut/core/link'
 
-describe Halibut::HAL::Link do
+describe Halibut::Core::Link do
   let(:normal_uri) { 'http://example.com'      }
   let(:tmpl_uri)   { 'http://example.com/{id}' }
 
   describe "href" do
     it "accepts non-templated uri" do
-      link = Halibut::HAL::Link.new normal_uri
+      link = Halibut::Core::Link.new normal_uri
 
       link.templated?.must_equal false
       link.href.must_equal normal_uri
     end
 
     it "accepts templated uri" do
-      link = Halibut::HAL::Link.new tmpl_uri, templated: true
+      link = Halibut::Core::Link.new tmpl_uri, templated: true
 
       link.templated?.must_equal true
       link.href.must_equal tmpl_uri
@@ -24,14 +24,14 @@ describe Halibut::HAL::Link do
 
   describe "optionals" do
     it "are set correctly" do
-      link1 = Halibut::HAL::Link.new normal_uri, {
+      link1 = Halibut::Core::Link.new normal_uri, {
         :type     => 'type',
         :name     => 'name',
         :profile  => 'profile',
         :title    => 'title',
         :hreflang => 'hreflang'
       }
-      link2 = Halibut::HAL::Link.new normal_uri, {
+      link2 = Halibut::Core::Link.new normal_uri, {
         :type     => 'type',
         :name     => 'name',
         :profile  => 'profile',

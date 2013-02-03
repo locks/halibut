@@ -30,7 +30,7 @@ module Halibut::Adapter
         xml = Nokogiri::XML(xml)
 
         @document = xml.root
-        @resource = Halibut::HAL::Resource.new extract_self_link
+        @resource = Halibut::Core::Resource.new extract_self_link
 
         extract_curie
         extract_properties

@@ -9,7 +9,7 @@ read_files = ->() {
 describe Halibut::Adapter::JSON do
 
   it "serializes to JSON" do
-    resource = Halibut::HAL::Resource.new("http://example.com")
+    resource = Halibut::Core::Resource.new("http://example.com")
     subject  = Halibut::Adapter::JSON.dump resource
     json     = load_json "simple"
 
@@ -19,12 +19,12 @@ describe Halibut::Adapter::JSON do
   it "deserializes from JSON" do
     subject = Halibut::Adapter::JSON.load(load_json "serialize")
 
-    order = Halibut::HAL::Resource.new "/orders/123"
+    order = Halibut::Core::Resource.new "/orders/123"
     order.set_property "total", 30.00
     order.set_property "currency", "USD"
     order.set_property "status", "shipped"
 
-    resource = Halibut::HAL::Resource.new "/orders"
+    resource = Halibut::Core::Resource.new "/orders"
     resource.add_link "find", "/orders{?id}", templated: true
     resource.add_link "next", "/orders/1", "name" => 'hotdog'
     resource.add_link "next", "/orders/9"
@@ -39,12 +39,12 @@ describe Halibut::Adapter::JSON do
     json = Halibut::Adapter::JSON.load(load_json "serialize")
     json = Halibut::Adapter::JSON.dump(json)
 
-    order = Halibut::HAL::Resource.new "/orders/123"
+    order = Halibut::Core::Resource.new "/orders/123"
     order.set_property "total", 30.00
     order.set_property "currency", "USD"
     order.set_property "status", "shipped"
 
-    resource = Halibut::HAL::Resource.new "/orders"
+    resource = Halibut::Core::Resource.new "/orders"
     resource.add_link "find", "/orders{?id}", templated: true
     resource.add_link "next", "/orders/1", "name" => 'hotdog'
     resource.add_link "next", "/orders/9"

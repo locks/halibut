@@ -2,7 +2,8 @@ require "halibut/version"
 
 # Halibut is the main namespace
 module Halibut
-  autoload :Builder, 'halibut/builder'
+  autoload :Builder,  'halibut/builder'
+  autoload :Document, 'halibut/document'
 end
 
 # The Adapter namespace contains classes that aid in the
@@ -12,7 +13,7 @@ module Halibut::Adapter
   autoload :XML,  'halibut/adapter/xml'
 end
 
-# Halibut::HAL contains the domain objects that reflect the HAL specs.
-module Halibut::HAL
-  autoload :Resource, 'halibut/hal/resource'
+# Halibut::Core contains the domain objects that reflect the HAL specs.
+module Halibut::Core
+  autoload :Resource, 'halibut/core/resource'
 end

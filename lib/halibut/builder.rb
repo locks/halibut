@@ -1,46 +1,57 @@
-require 'halibut/hal/resource'
+require 'halibut/core/resource'
 
 module Halibut
 
   # Builder provides a very thin wrapper around creating a HAL resource.
   class Builder
 
-    # The HAL resource built
-    attr_reader :resource
-
     #
     #
     # @param [String] href
     # @param [Proc]   blk
     def initialize(href=nil, &blk)
-      @resource = Halibut::HAL::Resource.new href
+      @resource = Halibut::Core::Resource.new href
 
       RootContext.new(@resource, &blk)
     end
 
-    def respond_to?(meth, *args)
-      RootContext.new(@resource).respond_to? meth
-    end
-
-    def method_missing meth, *args
-      RootContext.new(@resource).send meth, *args
+    # Returns the resource built.
+    #
+    # @return [Halibut::Core::Resource] resource built with the DSL
+    def resource
+      @resource
     end
 
     private
-
     # This is the root context of Halibut::Builder.
     #
     #
     class RootContext
-      extend Forwardable
-
-      def_delegator :@resource, :set_property, :property
-      def_delegator :@resource, :add_link,     :link
 
       def initialize(resource, &blk)
         @resource = resource
 
         instance_eval(&blk) if block_given?
+      end
+
+      # Sets a property on the resource.
+      # Will overwrite any same-named existing property.
+      #
+      # @param [String] name  name of the property
+      # @param [String] value value of the property
+      # @return [Halibut::Core::resource] resource with property set
+      def property(name, value)
+        @resource.set_property name, value
+      end
+
+      # Adds a link to the respection relation of the resource.
+      #
+      # @param [String] relation relation to which link will be added
+      # @param [String] href     URI of the link
+      # @param [Hash]   options  Link optional parameters: templated, hreflang, etc
+      # @return [Halibut::Core::Resource] resource with the link added
+      def link(relation, href, options={})
+        @resource.add_link relation, href, options
       end
 
       # Adds a namespace to the resource.
@@ -62,6 +73,11 @@ module Halibut
         @resource.add_namespace(name, href)
       end
 
+      # Adds an embedded resource.
+      #
+      # @param [String] rel  Embedded resource relation to the parent resource
+      # @param [String] href URI to the resource itself
+      # @param [Proc]   blk  Instructions to construct the embedded resource
       def resource(rel, href=nil, &blk)
         embedded = Halibut::Builder.new(href, &blk)
 
@@ -88,7 +104,6 @@ module Halibut
       def relation(rel, &blk)
         RelationContext.new(@resource, rel, &blk)
       end
-
     end
 
     class RelationContext
@@ -101,7 +116,7 @@ module Halibut
       end
 
       def link(href, opts={})
-        @resource.add_link(@rel, href, opts)
+        @resource.tap {|obj| obj.add_link(@rel, href, opts) }
       end
 
       def resource(href=nil, &blk)
@@ -112,5 +127,4 @@ module Halibut
     end
 
   end
-
 end

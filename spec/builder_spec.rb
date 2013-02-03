@@ -7,14 +7,14 @@ describe Halibut::Builder do
   describe "Empty resource" do
     it "builds empty resource with no self link" do
       builder  = Halibut::Builder.new
-      resource = Halibut::HAL::Resource.new
+      resource = Halibut::Core::Resource.new
 
       builder.resource.must_equal resource
     end
 
     it "builds empty resource with self link" do
       builder  = Halibut::Builder.new 'default'
-      resource = Halibut::HAL::Resource.new 'default'
+      resource = Halibut::Core::Resource.new 'default'
 
       builder.resource.must_equal resource
     end
@@ -26,7 +26,7 @@ describe Halibut::Builder do
         property 'foo', 'bar'
       end
 
-      resource = Halibut::HAL::Resource.new
+      resource = Halibut::Core::Resource.new
       resource.set_property 'foo', 'bar'
 
       builder.resource.properties['foo'].must_equal 'bar'
@@ -40,7 +40,7 @@ describe Halibut::Builder do
         property 'medals', { gold: 1, silver: 5, bronze: 10 }
       end
 
-      resource = Halibut::HAL::Resource.new
+      resource = Halibut::Core::Resource.new
       resource.set_property 'foo', 'bar'
       resource.set_property 'baz', 'quux'
       resource.set_property 'medals', { gold: 1, silver: 5, bronze: 10 }
@@ -61,7 +61,7 @@ describe Halibut::Builder do
         link 'cs:search', '/search{?broms,noms}', templated: true
       end
 
-      resource = Halibut::HAL::Resource.new
+      resource = Halibut::Core::Resource.new
       resource.add_link 'cs:broms', '/broms/1'
       resource.add_link 'cs:search', '/search{?broms,noms}', templated: true
 
@@ -75,7 +75,7 @@ describe Halibut::Builder do
         link 'cs:search', '/search{?broms,noms}', templated: true
       end
 
-      resource = Halibut::HAL::Resource.new
+      resource = Halibut::Core::Resource.new
       resource.add_link 'cs:broms', '/broms/1'
       resource.add_link 'cs:broms', '/broms/2'
       resource.add_link 'cs:search', '/search{?broms,noms}', templated: true
@@ -93,11 +93,11 @@ describe Halibut::Builder do
         end
       end
 
-      game = Halibut::HAL::Resource.new '/game/1'
+      game = Halibut::Core::Resource.new '/game/1'
       game.set_property(:name, 'Crash Bandicoot')
       game.set_property(:console, 'PlayStation')
 
-      resource = Halibut::HAL::Resource.new
+      resource = Halibut::Core::Resource.new
       resource.embed_resource('games', game)
 
       builder.resource.must_equal resource, diff(builder.resource.to_hash, resource.to_hash)
@@ -115,15 +115,15 @@ describe Halibut::Builder do
         end
       end
 
-      game1 = Halibut::HAL::Resource.new '/game/1'
+      game1 = Halibut::Core::Resource.new '/game/1'
       game1.set_property(:name, 'Crash Bandicoot')
       game1.set_property(:console, 'PlayStation')
 
-      game2 = Halibut::HAL::Resource.new '/game/2'
+      game2 = Halibut::Core::Resource.new '/game/2'
       game2.set_property(:name, 'Super Mario Land')
       game2.set_property(:console, 'Game Boy')
 
-      resource = Halibut::HAL::Resource.new
+      resource = Halibut::Core::Resource.new
       resource.embed_resource('games', game1)
       resource.embed_resource('games', game2)
 
@@ -148,11 +148,11 @@ describe Halibut::Builder do
         end
       end
 
-      user = Halibut::HAL::Resource.new '/users/1'
+      user = Halibut::Core::Resource.new '/users/1'
       user.set_property :name, "foo"
       user.set_property :nick, "bar"
 
-      resource = Halibut::HAL::Resource.new
+      resource = Halibut::Core::Resource.new
       resource.add_link 'games', '/games/1'
       resource.add_link 'games', '/games/2'
       resource.add_link 'games', '/games/3'
@@ -171,9 +171,6 @@ describe Halibut::Builder do
       builder = Halibut::Builder.new do
         namespace 'cs', 'http://cs-api.herokuapp.com/rels/{rel}'
       end
-
-      builder = Halibut::Builder.new
-      builder.namespace 'cs', 'http://cs-api.herokuapp.com/rels/{rel}'
 
       curie = builder.resource.links['curie'].first
 

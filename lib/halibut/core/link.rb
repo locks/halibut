@@ -1,4 +1,4 @@
-module Halibut::HAL
+module Halibut::Core
   # This class represents a HAL Link object.
   #
   # spec spec spec.
@@ -27,7 +27,7 @@ module Halibut::HAL
     # @param [String]  href      URI or URI Template
     # @param [Hash]    opts      Options: type, name, profile, title, hreflang
     #
-    # @return [Halibut::HAL::Link] HAL Link object
+    # @return [Halibut::Core::Link] HAL Link object
     def initialize(href, opts={})
       @href    = href
       @options = Options.new opts
@@ -64,7 +64,7 @@ module Halibut::HAL
 
     private
     # Options reifies the various optional properties of a link, as per the
-    # spec.
+    # spec: templated, type, name, profile, title, hreflang.
     #
     #     hash = { name: 'John le Carré', templated: true }
     #     opts = Options.new(hash)
@@ -77,6 +77,8 @@ module Halibut::HAL
                   :profile, :title, :hreflang
 
       def initialize opts
+        string_options = Helpers::stringify_keys(opts)
+
         @templated = opts[:templated] || opts['templated']
         @type      = opts[:type]      || opts['type']
         @name      = opts[:name]      || opts['name']
@@ -123,6 +125,13 @@ module Halibut::HAL
       # @return [true,false] whether these two objects are equivalent or not.
       def ==(other)
         to_hash == other.to_hash
+      end
+
+      private
+      module Helpers
+        def self.stringify_keys(hash)
+          hash.each_with_object({}) {|(k,v), obj| obj[k.to_s] = v }
+        end
       end
     end
   end
