@@ -17,7 +17,7 @@ describe Halibut::Adapter::JSON do
   end
 
   it "deserializes from JSON" do
-    subject = Halibut::Adapter::JSON.load(load_json "serialize")
+    subject = Halibut::Adapter::JSON.parse(load_json "serialize")
 
     order = Halibut::Core::Resource.new "/orders/123"
     order.set_property "total", 30.00
@@ -36,7 +36,7 @@ describe Halibut::Adapter::JSON do
   end
 
   it "provides to_json helper" do
-    json = Halibut::Adapter::JSON.load(load_json "serialize")
+    json = Halibut::Adapter::JSON.parse(load_json "serialize")
     json = Halibut::Adapter::JSON.dump(json)
 
     order = Halibut::Core::Resource.new "/orders/123"
@@ -61,7 +61,7 @@ describe Halibut::Adapter::JSON do
     files  = read_files[]
 
     refilled  = files.map {|f| MultiJson.load f }
-    resources = files.map {|f| Halibut::Adapter::JSON.load f }.map &:to_hash
+    resources = files.map {|f| Halibut::Adapter::JSON.parse f }.map &:to_hash
 
     zipped = refilled.zip resources
     zipped.each do |json, hal|
