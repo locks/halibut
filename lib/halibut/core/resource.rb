@@ -92,7 +92,7 @@ module Halibut::Core
     #
     # @param [String] property property
     def property(property)
-      tap { @properties.fetch(property, nil) }
+      @properties.fetch(property, nil)
     end
 
     # Adds a namespace to the resource.
