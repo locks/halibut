@@ -100,7 +100,7 @@ module Halibut::Core
     # @param [String] name The name of the namespace
     # @param [String] href The templated URI of the namespace
     def add_namespace(name, href)
-      @links.add 'curie', Link.new(href, templated: true, name: name)
+      add_link 'curie', href, templated: true, name: name
     end
 
     # Adds link to relation.
