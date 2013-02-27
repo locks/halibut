@@ -1,12 +1,13 @@
 require 'bundler/setup'
 
+require 'coveralls'
+Coveralls.wear!
+
 require 'minitest/autorun'
 require 'minitest/hell'
 
 require 'halibut'
 
-require 'coveralls'
-Coveralls.wear!
 
 # Testing helper to load JSON files. Returns a string containing JSON.
 def load_json(filename)
