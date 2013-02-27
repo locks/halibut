@@ -5,6 +5,9 @@ require 'minitest/hell'
 
 require 'halibut'
 
+require 'coveralls'
+Coveralls.wear!
+
 # Testing helper to load JSON files. Returns a string containing JSON.
 def load_json(filename)
   File.read(File.dirname(__FILE__)+"/fixtures/#{filename}.json")

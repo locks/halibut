@@ -2,6 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/halibut.png)](http://badge.fury.io/rb/halibut)
 [![Build Status](https://secure.travis-ci.org/locks/halibut.png?branch=master)](https://travis-ci.org/locks/halibut)
+[![Coverage Status](https://coveralls.io/repos/locks/halibut/badge.png?branch=master)](https://coveralls.io/r/locks/halibut)
 [![Dependency Status](https://gemnasium.com/locks/halibut.png)](https://gemnasium.com/locks/halibut)
 [![Code Climate](https://codeclimate.com/github/locks/halibut.png)](https://codeclimate.com/github/locks/halibut)
 

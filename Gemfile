@@ -5,6 +5,7 @@ gemspec
 
 group :travis do
   gem "rake"
+  gem "coveralls"
 end
 
 group :testing do
