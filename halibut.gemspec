@@ -22,6 +22,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "addressable"
 
   # this version of minitest adds parallelization
+  gem.add_development_dependency "rake"
   gem.add_development_dependency "minitest", ">= 4.2"
   gem.add_development_dependency "hash-differ"
 
