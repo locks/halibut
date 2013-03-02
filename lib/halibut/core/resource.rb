@@ -1,5 +1,4 @@
 require 'halibut/core/relation_map'
-require 'halibut/core/link'
 
 module Halibut::Core
 

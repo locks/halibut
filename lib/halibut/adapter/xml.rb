@@ -1,5 +1,7 @@
 require 'nokogiri'
 
+require 'halibut/core'
+
 module Halibut::Adapter
 
   module XML
