@@ -106,17 +106,6 @@ Halibut::Adapter::JSON.dump resource
 resource = Halibut::Adapter::JSON.load 'resource.json'
 ```
 
-### XML
-```ruby
-require 'halibut/adapter/xml'
-
-# converting to XML
-# Coming soon…
-
-# creating a resource from XML
-resource = Halibut::Adapter::XML.load 'resource.xml'
-```
-
 ## Contributing
 
 1. Fork it

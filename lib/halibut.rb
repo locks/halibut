@@ -10,7 +10,6 @@ end
 # mapping of HAL Resources into a specific format.
 module Halibut::Adapter
   autoload :JSON, 'halibut/adapter/json'
-  autoload :XML,  'halibut/adapter/xml'
 end
 
 # Halibut::Core contains the domain objects that reflect the HAL specs.
