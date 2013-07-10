@@ -1,5 +1,5 @@
-[![Stories in Ready](http://badge.waffle.io/locks/halibut.png)](http://waffle.io/locks/halibut)  
-# Halibut [![endorse](http://api.coderwall.com/locks/endorsecount.png)](http://coderwall.com/locks)
+# Halibut [![endorse](http://api.coderwall.com/locks/endorsecount.png)](http://coderwall.com/locks) [![Stories in Ready](http://badge.waffle.io/locks/halibut.png)](http://waffle.io/locks/halibut)  
+
 
 [![Gem Version](https://badge.fury.io/rb/halibut.png)](http://badge.fury.io/rb/halibut)
 [![Build Status](https://secure.travis-ci.org/locks/halibut.png?branch=master)](https://travis-ci.org/locks/halibut)
