@@ -1,3 +1,4 @@
+[![Stories in Ready](http://badge.waffle.io/locks/halibut.png)](http://waffle.io/locks/halibut)  
 # Halibut [![endorse](http://api.coderwall.com/locks/endorsecount.png)](http://coderwall.com/locks)
 
 [![Gem Version](https://badge.fury.io/rb/halibut.png)](http://badge.fury.io/rb/halibut)
