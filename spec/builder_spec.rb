@@ -164,8 +164,8 @@ describe Halibut::Builder do
   end
 
   describe "Namespace helper" do
-    let(:name) { 'cs' }
-    let(:href) { 'http://cs-api.herokuapp.com/rels/{rel}' }
+    let(:namespace) { 'cs' }
+    let(:href)      { 'http://cs-api.herokuapp.com/rels/{rel}' }
 
     it "builds resource using curie DSL" do
       builder = Halibut::Builder.new do
@@ -173,8 +173,7 @@ describe Halibut::Builder do
       end
 
       curie = builder.resource.links['curie'].first
-
-      curie.name.must_equal name
+      curie.name.must_equal namespace
       curie.href.must_equal href
     end
   end
