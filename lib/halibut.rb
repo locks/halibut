@@ -10,6 +10,8 @@ require 'halibut/builder'
 module Halibut::Adapter; end
 
 require 'halibut/adapter/json'
+Halibut.extend Halibut::Adapter::JSON::ConvenienceMethods
+
 
 # Halibut::Core contains the domain objects that reflect the HAL specs.
 module Halibut::Core; end

@@ -111,5 +111,11 @@ module Halibut::Adapter
         end
       end
     end
+
+    module ConvenienceMethods
+      def parse_json(json_str_or_io)
+        Halibut::Adapter::JSON.parse(json_str_or_io)
+      end
+    end
   end
 end
