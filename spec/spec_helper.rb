@@ -4,7 +4,6 @@ require 'coveralls'
 Coveralls.wear!
 
 require 'minitest/autorun'
-require 'minitest/hell'
 
 require 'halibut'
 
