@@ -22,3 +22,9 @@ end
 group :script do
   gem "rest-client"
 end
+
+platforms 'rbx' do
+  gem 'rubysl'
+  gem 'rubinius-coverage'
+  gem 'rubysl-test-unit'
+end
