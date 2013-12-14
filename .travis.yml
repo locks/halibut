@@ -1,9 +1,17 @@
 language: ruby
 bundler_args: --without testing
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - ruby-head
-  - jruby-19mode
-  - jruby-head
-  - rbx-2.1.1
+- 1.9.3
+- 2.0.0
+- ruby-head
+- jruby-19mode
+- jruby-head
+- rbx-2.1.1
+deploy:
+  provider: rubygems
+  api_key:
+    secure: cMM9SSWMkq6G10Sxs2CXDacurZOkJiaHPHgfffE/6SadZ2nYxPiR637VVq1CspT0rs5La9qUQD7ZwRQ046WfPw84rx5iu8J+sBf7bTrI0OcQLJHcbCGUaFpH01JVD6Nhch5ZrOcts3Xzm7hbOxgEHqATMbCgGb2q9vBORhatnj4=
+  gem: halibut
+  on:
+    tags: true
+    repo: locks/halibut
