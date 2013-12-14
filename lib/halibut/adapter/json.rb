@@ -1,5 +1,4 @@
 require 'multi_json'
-
 require 'halibut/core'
 
 module Halibut::Adapter

@@ -23,7 +23,5 @@ module Halibut
     def to_s
       @curie and "#{@curie}:#{@name}" or @name
     end
-
   end
-
 end

@@ -125,6 +125,5 @@ module Halibut
         @resource.embed_resource(@rel, embedded.resource)
       end
     end
-
   end
 end

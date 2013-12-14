@@ -135,5 +135,4 @@ module Halibut::Core
       end
     end
   end
-
 end
