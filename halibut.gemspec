@@ -19,6 +19,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 1.9.3'
 
   gem.add_dependency "multi_json"
+  gem.add_dependency "addressable"
 
   # this version of minitest adds parallelization
   gem.add_development_dependency "rake"

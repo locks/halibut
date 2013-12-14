@@ -1,12 +1,12 @@
+require 'addressable/uri'
+require 'addressable/template'
+
 module Halibut::Core
   # This class represents a HAL Link object.
   #
   # spec spec spec.
   class Link
     extend Forwardable
-
-    # The URI associated with this link.
-    attr_reader :href
 
     def_delegators :@options, :templated, :templated?, :type,
                    :name, :profile, :title, :hreflang
@@ -29,8 +29,13 @@ module Halibut::Core
     #
     # @return [Halibut::Core::Link] HAL Link object
     def initialize(href, opts={})
-      @href    = href
       @options = Options.new opts
+      @href = templated? ? Addressable::Template.new(href) : Addressable::URI.parse(href)
+    end
+
+    # The URI associated with this link.
+    def href
+      templated? ? @href.pattern : @href.to_s
     end
 
     # Simply returns a hash of the href and the options that are not empty.
