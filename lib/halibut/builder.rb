@@ -28,10 +28,10 @@ module Halibut
     #
     class RootContext
 
-      def initialize(resource, &blk)
+      def initialize(resource)
         @resource = resource
-
-        instance_eval(&blk) if block_given?
+        
+        yield if block_given?
       end
 
       # Sets a property on the resource.
