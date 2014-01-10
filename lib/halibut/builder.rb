@@ -9,10 +9,10 @@ module Halibut
     #
     # @param [String] href
     # @param [Proc]   blk
-    def initialize(href=nil, &blk)
+    def initialize(href=nil, &resource_definition)
       @resource = Halibut::Core::Resource.new href
 
-      RootContext.new(@resource, &blk)
+      RootContext.new(@resource, &resource_definition)
     end
 
     # Returns the resource built.
@@ -28,10 +28,10 @@ module Halibut
     #
     class RootContext
 
-      def initialize(resource, &blk)
+      def initialize(resource, &resource_definition)
         @resource = resource
 
-        instance_eval(&blk) if block_given?
+        instance_eval(&resource_definition) if block_given?
       end
 
       # Sets a property on the resource.
@@ -78,8 +78,8 @@ module Halibut
       # @param [String] rel  Embedded resource relation to the parent resource
       # @param [String] href URI to the resource itself
       # @param [Proc]   blk  Instructions to construct the embedded resource
-      def resource(rel, href=nil, &blk)
-        embedded = Halibut::Builder.new(href, &blk)
+      def resource(rel, href=nil, &embedded_definition)
+        embedded = Halibut::Builder.new(href, &embedded_definition)
 
         @resource.embed_resource(rel, embedded.resource)
       end
@@ -101,26 +101,26 @@ module Halibut
       # @param [String,Symbol] rel
       # @param [Proc]          blk Instructions to be executed in the relation
       #                            context
-      def relation(rel, &blk)
-        RelationContext.new(@resource, rel, &blk)
+      def relation(rel, &relation_definition)
+        RelationContext.new(@resource, rel, &relation_definition)
       end
     end
 
     class RelationContext
 
-      def initialize(resource, rel, &blk)
+      def initialize(resource, rel, &relation_definition)
         @resource = resource
         @rel      = rel
 
-        instance_eval(&blk) if block_given?
+        instance_eval(&relation_definition) if block_given?
       end
 
       def link(href, opts={})
         @resource.tap {|obj| obj.add_link(@rel, href, opts) }
       end
 
-      def resource(href=nil, &blk)
-        embedded = Halibut::Builder.new(href, &blk)
+      def resource(href=nil, &embedded_definition)
+        embedded = Halibut::Builder.new(href, &embedded_definition)
 
         @resource.embed_resource(@rel, embedded.resource)
       end
