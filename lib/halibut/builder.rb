@@ -112,7 +112,7 @@ module Halibut
         @resource = resource
         @rel      = rel
 
-        blk.call if block_given?
+        instance_eval(&blk) if block_given?
       end
 
       def link(href, opts={})
