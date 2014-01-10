@@ -23,4 +23,7 @@ doc/
 .DS_Store
 
 # Rubinius
+
+# IntelliJ
+.idea
 .rbx
