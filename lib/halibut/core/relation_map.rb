@@ -8,8 +8,11 @@ module Halibut::Core
 
     def_delegators :@relations, :[], :empty?, :==, :fetch
 
-    def initialize
+    DEFAULT_OPTIONS = { single_item_arrays: false }
+
+    def initialize(options = {})
       @relations = {}
+      @options = DEFAULT_OPTIONS.merge(options)
     end
 
     # Adds an object to a relation.
@@ -37,10 +40,21 @@ module Halibut::Core
     def to_hash
       @relations.each_with_object({}) do |(rel,val), obj|
         rel = rel.to_s
-        val = val.length == 1 ? val.first.to_hash : val.map(&:to_hash)
 
-        obj[rel] = val
+        hashed_val = val.map(&:to_hash)
+        if val.length == 1 && !single_item_arrays?
+          hashed_val = val.first.to_hash
+        end
+
+        obj[rel] = hashed_val
       end
+    end
+
+    # Returns true if the relation map is configured to always to
+    # permit single arrays when to_hash is called. The default behavior
+    # is to convert single item arrays into instances
+    def single_item_arrays?
+      @options[:single_item_arrays]
     end
   end
 end
