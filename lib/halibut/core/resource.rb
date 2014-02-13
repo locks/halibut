@@ -124,6 +124,8 @@ module Halibut::Core
 
     # Embeds resource in relation
     #
+    # To embed many resources, call #add_embedded_resource with each item
+    #
     # @param [String]   relation relation
     # @param [Resource] resource resource to embed
     def embed_resource(relation, resource)
@@ -131,6 +133,12 @@ module Halibut::Core
       @embedded.add relation, resource
     end
 
+    # Embeds resource in a relation array
+    #
+    # To embed a single object, see #embed_resource.
+    #
+    # @param [String]   relation relation
+    # @param [Resource] resource resource to embed
     def add_embedded_resource(relation, resource)
       @embedded_arrays.add relation, resource
     end
