@@ -28,6 +28,10 @@ module Halibut::Core
     # @param [String] relation relation that the object belongs to
     # @param [Object] item     the object to add to the relation
     def add(relation, item)
+      unless item.respond_to?(:to_hash)
+        raise ArgumentError.new('only items that can be converted to hashes with #to_hash are permitted')
+      end
+
       @relations[relation] = @relations.fetch(relation, []) << item
     end
 
