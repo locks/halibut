@@ -88,15 +88,50 @@ describe Halibut::Core::Resource do
     let(:res2) { Halibut::Core::Resource.new "http://secnd-resource.com" }
 
     it "no embedded resource" do
-      subject.embedded.must_be_empty
+      subject.to_hash['_embedded'].must_be_nil
     end
 
     it "has embedded resource" do
-      subject.embed_resource 'users', res1
-      subject.embed_resource 'users', res2
+      subject.embed_resource 'user', res1
 
-      subject.embedded['users'].first.must_equal res1
-      subject.embedded['users'].last.must_equal  res2
+      subject.to_hash['_embedded']['user'].must_equal res1.to_hash
+    end
+
+    it "deprecates calling embed_resource twice for the same relation" do
+      subject.embed_resource 'user', res1
+
+      # this call intentionally generates a deprecation warning
+      subject.embed_resource 'user', res2
+
+      subject.to_hash['_embedded']['user'].length.must_equal 2
+      subject.to_hash['_embedded']['user'].first.must_equal res1.to_hash
+      subject.to_hash['_embedded']['user'].last.must_equal res2.to_hash
+    end
+  end
+
+  describe "Embedded arrays" do
+    subject { Halibut::Core::Resource.new }
+    let(:res1) { Halibut::Core::Resource.new "http://first-resource.com" }
+    let(:res2) { Halibut::Core::Resource.new "http://secnd-resource.com" }
+
+    it "has no embedded arrays" do
+      subject.embedded.must_be_empty
+    end
+
+    it "has a resource embedded into an array" do
+      subject.add_embedded_resource 'users', res1
+
+      subject.to_hash['_embedded']['users'].length.must_equal 1
+      subject.to_hash['_embedded']['users'].first.must_equal res1.to_hash
+    end
+
+    it "has multiple resources embedded into an array" do
+      subject.add_embedded_resource 'users', res1
+      subject.add_embedded_resource 'users', res2
+
+      subject.to_hash['_embedded']['users'].length.must_equal 2
+      subject.to_hash['_embedded']['users'].first.must_equal res1.to_hash
+      subject.to_hash['_embedded']['users'].last.must_equal res2.to_hash
     end
   end
 

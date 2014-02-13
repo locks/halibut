@@ -38,9 +38,10 @@ module Halibut::Core
     #
     # @param [String] href Link that will be added to the self relation.
     def initialize(href=nil, properties={}, links={}, embedded={})
-      @namespaces = RelationMap.new
-      @links      = RelationMap.new
-      @embedded   = RelationMap.new
+      @namespaces      = RelationMap.new
+      @links           = RelationMap.new
+      @embedded        = RelationMap.new
+      @embedded_arrays = RelationMap.new(single_item_arrays: true)
       @properties = {}
 
       add_link('self', href) if href
@@ -126,7 +127,12 @@ module Halibut::Core
     # @param [String]   relation relation
     # @param [Resource] resource resource to embed
     def embed_resource(relation, resource)
+      warn 'Calling Halibut::Core::Resource#embed_resource for populating an array is deprecated. Use Halibut::Core::Resource#add_embeded_resource instead.' if @embedded[relation]
       @embedded.add relation, resource
+    end
+
+    def add_embedded_resource(relation, resource)
+      @embedded_arrays.add relation, resource
     end
 
     # Hash representation of the resource.
@@ -135,8 +141,12 @@ module Halibut::Core
     # @return [Hash] hash representation of the resource
     def to_hash
       {}.merge(@properties).tap do |h|
-        h['_links']    = {}.merge @links    unless @links.empty?
-        h['_embedded'] = {}.merge @embedded unless @embedded.empty?
+        h['_links'] = {}.merge @links    unless @links.empty?
+
+        combined_embedded = {}
+        combined_embedded.merge! @embedded unless @embedded.empty?
+        combined_embedded.merge! @embedded_arrays unless @embedded_arrays.empty?
+        h['_embedded'] = combined_embedded unless combined_embedded.empty?
       end
     end
 
