@@ -16,6 +16,27 @@ describe Halibut::Adapter::JSON do
     MultiJson.load(subject).must_equal MultiJson.load(json)
   end
 
+  it "serializes to JSON with links and embedded resources" do
+    json = load_json "serialize"
+
+    order = Halibut::Core::Resource.new "/orders/123"
+    order.set_property "total", 30.00
+    order.set_property "currency", "USD"
+    order.set_property "status", "shipped"
+
+    resource = Halibut::Core::Resource.new "/orders"
+    resource.add_link "find", "/orders{?id}", templated: true
+    resource.add_link "next", "/orders/1", "name" => 'hotdog'
+    resource.add_link "next", "/orders/9"
+    resource.set_property "currentlyProcessing", 14
+    resource.set_property "shippedToday", 20
+    resource.add_embedded_resource "orders", order
+
+    subject = Halibut::Adapter::JSON.dump resource
+
+    MultiJson.load(subject).must_equal MultiJson.load(json)
+  end
+
   it "deserializes from JSON" do
     subject = Halibut::Adapter::JSON.parse(load_json "serialize")
 
