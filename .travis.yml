@@ -6,7 +6,7 @@ rvm:
 - ruby-head
 - jruby-19mode
 - jruby-head
-- rbx-2.1.1
+- rbx-2
 deploy:
   provider: rubygems
   api_key:
