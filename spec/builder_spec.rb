@@ -1,6 +1,4 @@
 require_relative 'spec_helper'
-
-
 require 'hash'
 
 describe Halibut::Builder do
