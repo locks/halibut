@@ -59,7 +59,11 @@ describe Halibut::Core::Resource do
       subject.add_namespace 'lol', href
 
       subject.namespaces.size.must_equal 1
-      subject.namespaces.first.must_equal subject.namespace('lol')
+      ns = subject.namespaces.first
+
+      ns.name.must_equal subject.namespace('lol').name
+      ns.hreflang.must_equal subject.namespace('lol').hreflang
+      ns.templated.must_equal subject.namespace('lol').templated
 
       subject.namespace('lol').must_be :templated?
       subject.namespace('lol').href.must_equal href
