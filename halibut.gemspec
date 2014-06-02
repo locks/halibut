@@ -7,6 +7,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Toolkit to work with HAL}
   gem.summary       = %q{A HAL parser and builder for use in Hypermedia APIs}
   gem.homepage      = "http://locks.github.com/halibut"
+  gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
