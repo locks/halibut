@@ -61,7 +61,7 @@ module Halibut::Core
     # @param [Link] other Link object to compare to
     # @return [true,false] return of the comparison of the two objects
     def ==(other)
-      @href == other.href && @options == other.options
+      @href.to_s == other.href.to_s && @options == other.options
     end
 
     protected

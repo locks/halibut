@@ -145,9 +145,9 @@ module Halibut::Core
     # @param  [Halibut::Core::Resource] other Resource to compare to
     # @return [true, false]                  Result of the comparison
     def ==(other)
-      @properties == other.properties &&
-      @links      == other.links      &&
-      @embedded   == other.embedded
+      @properties    == other.properties    &&
+      @links.to_hash == other.links.to_hash &&
+      @embedded      == other.embedded
     end
   end
 end
