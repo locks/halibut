@@ -44,13 +44,19 @@ order.set_property "total", 30.00
 order.set_property "currency", "USD"
 order.set_property "status", "shipped"
 
+payment = Halibut::Core::Resource.new "/orders/123/payment"
+payment.set_property "method", "credit"
+payment.set_property "amount", "30.00"
+payment.set_property "auth_code", "ABZ127"
+
 resource = Halibut::Core::Resource.new "/orders"
 resource.add_link "find", "/orders{?id}", templated: true
 resource.add_link "next", "/orders/1", "name" => 'hotdog'
 resource.add_link "next", "/orders/9"
 resource.set_property "currentlyProcessing", 14
 resource.set_property "shippedToday", 20
-resource.embed_resource "orders", order
+resource.embed_resource "payment", payment
+resource.add_embed_resource "orders", order
 ```
 
 ### Halibut::Builder
