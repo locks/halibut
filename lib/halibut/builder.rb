@@ -99,8 +99,9 @@ module Halibut
       #     resource.links[:john].first.href
       #
       # @param [String,Symbol] rel
-      # @param [Proc]          blk Instructions to be executed in the relation
+      # @param [Proc]          relation_definition Instructions to be executed in the relation
       #                            context
+      # @return [RelationContext]
       def relation(rel, &relation_definition)
         RelationContext.new(@resource, rel, &relation_definition)
       end
