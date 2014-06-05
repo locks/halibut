@@ -36,7 +36,10 @@ module Halibut::Core
     #     # Resource with a self link
     #     resource = Halibut::Core::Resource.new
     #
-    # @param [String] href Link that will be added to the self relation.
+    # @param [String] href link that will be added to the self relation.
+    # @param [Hash] properties resources properties.
+    # @param [Hash] links resource links.
+    # @param [Hash] embedded embedded resources.
     def initialize(href=nil, properties={}, links={}, embedded={})
       @namespaces      = RelationMap.new
       @links           = RelationMap.new
