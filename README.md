@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/locks/halibut/badge.png?branch=master)](https://coveralls.io/r/locks/halibut)
 [![Dependency Status](https://gemnasium.com/locks/halibut.png)](https://gemnasium.com/locks/halibut)
 [![Code Climate](https://codeclimate.com/github/locks/halibut.png)](https://codeclimate.com/github/locks/halibut)
-
+[![Inline docs](http://inch-ci.org/github/locks/halibut.png?branch=master)](http://inch-ci.org/github/locks/halibut)
 Halibut is a tiny gem that makes it easier to deal with the [HAL](http://stateless.co/hal_specification.html) format.
 
 In providing tools to build, (de)serialize, and manipulate HAL resources,
