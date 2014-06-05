@@ -41,6 +41,16 @@ module Halibut::Adapter
     end
 
     module InstanceMethods
+
+      # Returns a JSON representation of the resource.
+      #
+      #     resource = Halibut::Core::Resource.new('/post')
+      #     resource.extend(Halibut::Adapter::JSON)
+      #     resource.to_json
+      #     # => "{\"_links\":{\"self\":{\"href\":\"/post\"}}}"
+      #
+      # @return [String] a JSON representation of the resource
+      #
       # @deprecated This might go.
       def to_json
         warn "[Deprecation] Don't depend on this, as it might disappear soon."
