@@ -22,6 +22,8 @@ module Halibut::Adapter
   module JSON
 
     # Returns an Halibut::HAL::Resource from a JSON string
+    #
+    # @param [StringIO] json the JSON to parse
     def self.parse(json)
       ResourceExtractor.new(json).resource
     end
@@ -62,6 +64,7 @@ module Halibut::Adapter
       #     json = '{"_links":{"self":{"href":"http://example.com"}}}'
       #     ResourceExtractor.new('{}')
       #
+      # @param [StringIO] json the json from which to extract the resource
       def initialize(json)
         @halibut = Halibut::Core::Resource.new
         @json    = MultiJson.load(json)

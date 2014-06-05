@@ -57,6 +57,11 @@ module Halibut::Core
       @links.fetch('self', []).map(&:href).first
     end
 
+    # Returns the namespace associated with the name.
+    #
+    # @param [String] name the name for which you want to retrieve a namespace
+    #                 for.
+    # @return [Halibut::Core::Link]
     def namespace(name)
       @links['curie'].select {|ns| ns.name == name }.first
     end
