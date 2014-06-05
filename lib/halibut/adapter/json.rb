@@ -3,7 +3,7 @@ require 'halibut/core'
 
 module Halibut::Adapter
 
-  # This adapter converts Halibut::HAL::Resources to JSON encoded strings and back.
+  # This adapter converts Halibut::Core::Resources to JSON encoded strings and back.
   #
   #     resource = Halibut::Builder.new('http://example.com') do
   #       link "posts", '/posts'
@@ -21,14 +21,14 @@ module Halibut::Adapter
   #
   module JSON
 
-    # Returns an Halibut::HAL::Resource from a JSON string
+    # Returns an Halibut::Core::Resource from a JSON string
     #
     # @param [StringIO] json the JSON to parse
     def self.parse(json)
       ResourceExtractor.new(json).resource
     end
 
-    # Returns a JSON string representation of an Halibut::HAL::Resource
+    # Returns a JSON string representation of an Halibut::Core::Resource
     def self.dump(resource)
       MultiJson.dump resource.to_hash
     end
@@ -64,7 +64,7 @@ module Halibut::Adapter
     #     extractor = ResourceExtractor.new({})
     #     # => #<Halibut::Adapter::JSON::ResourceExtractor:0x007f8adb92f2a8
     #     extractor.resource
-    #     # => #<Halibut::HAL::Resource:0x007f8add058fb0
+    #     # => #<Halibut::Core::Resource:0x007f8add058fb0
     #
     class ResourceExtractor
 
