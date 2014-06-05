@@ -1,6 +1,13 @@
 require "halibut/version"
 
-# Halibut is the main namespace
+# Halibut is the main namespace, and doesn't actually contain behaviour.
+# However, if you require it like so:
+#
+#     # requires all of Halibut namespace
+#     require 'halibut'
+#
+# then everything under the Halibut module namespace, consisting of
+# the adapter and the core link and resource objects.
 module Halibut; end
 
 require 'halibut/builder'
