@@ -5,6 +5,7 @@ module Halibut::Adapter
 
   # This adapter converts Halibut::Core::Resources to JSON encoded strings and back.
   #
+  # @example
   #     resource = Halibut::Builder.new('http://example.com') do
   #       link "posts", '/posts'
   #       link "author", 'http://locks.io'
@@ -44,6 +45,7 @@ module Halibut::Adapter
 
       # Returns a JSON representation of the resource.
       #
+      # @example
       #     resource = Halibut::Core::Resource.new('/post')
       #     resource.extend(Halibut::Adapter::JSON)
       #     resource.to_json
@@ -61,6 +63,7 @@ module Halibut::Adapter
     # ResourceExtractor is responsible for deserializing an HAL resource
     # from the JSON representation.
     #
+    # @example
     #     extractor = ResourceExtractor.new({})
     #     # => #<Halibut::Adapter::JSON::ResourceExtractor:0x007f8adb92f2a8
     #     extractor.resource
@@ -71,6 +74,7 @@ module Halibut::Adapter
       # Straight-forward, just pass in the JSON string you want to extract the
       # resource from.
       #
+      # @example
       #     json = '{"_links":{"self":{"href":"http://example.com"}}}'
       #     ResourceExtractor.new('{}')
       #

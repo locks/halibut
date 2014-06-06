@@ -13,10 +13,10 @@ module Halibut::Core
 
     # Returns an instance of a HAL Link object
     #
-    #     # link with no options
+    # @example Link with no options
     #     link = Link.new('http://homeopathy.org')
     #
-    #     # link with name and type options
+    # @example Link with name and type options
     #     link = Link.new('http://homeopathy.org', name: 'Homeopath'
     #                                            , type: 'text/html')
     #
@@ -35,6 +35,7 @@ module Halibut::Core
 
     # Simply returns a hash of the href and the options that are not empty.
     #
+    # @example
     #     link = Link.new('/links', name: 'Links')
     #     link.to_hash
     #     # => { "href" => "/links", "name" => "links" }
@@ -48,6 +49,7 @@ module Halibut::Core
     #
     # Two objects are the same if they have the same href and the same options.
     #
+    # @example
     #     link_one = Link.new('/link', name: 'One', type: 'text/html')
     #     link_two = Link.new('/link', name: 'One', type: 'text/html')
     #     link_one == link_two
@@ -66,6 +68,7 @@ module Halibut::Core
     # Options reifies the various optional properties of a link, as per the
     # spec: templated, type, name, profile, title, hreflang.
     #
+    # @example
     #     hash = { name: 'John le Carré', templated: true }
     #     opts = Options.new(hash)
     #     opts.name    # => John le Carré
@@ -139,6 +142,7 @@ module Halibut::Core
 
       # Straight forward comparison between two Options objects.
       #
+      # @example
       #     opts_one = Options.new(name: 'Link', templated: true)
       #     opts_two = Options.new(name: 'Link', templated: true)
       #     opts_one == opts_two

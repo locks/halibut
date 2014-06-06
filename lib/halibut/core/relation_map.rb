@@ -17,6 +17,7 @@ module Halibut::Core
 
     # Adds an object to a relation.
     #
+    # @example
     #     relations = RelationMap.new
     #     relations.add 'self', Link.new('/resource/1')
     #     relations['self']

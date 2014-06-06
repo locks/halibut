@@ -106,6 +106,7 @@ module Halibut
       # This feature was introduced as an attempt to reduce repeating the
       # relation per link/resource, and thus reducing typos.
       #
+      # @example
       #     resource = Halibut::Builder.new do
       #       relation :john do
       #         link 'http://appleseed.com/john'

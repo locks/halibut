@@ -28,12 +28,12 @@ module Halibut::Core
     # properties, links and embedded resources as parameters to this method,
     # like suggested in https://github.com/locks/halibut/issues/1.
     #
-    #     # Resource without self link (e.g. POSTing a new resource)
+    # @example Resource without self link (e.g. POSTing a new resource)
     #     resource = Halibut::Core::Resource.new
     #     resource.set_property :name,   'Halibut Rules'
     #     resource.set_property :winner, 'Tiger Blood'
     #
-    #     # Resource with a self link
+    # @example Resource with a self link
     #     resource = Halibut::Core::Resource.new
     #
     # @param [String] href link that will be added to the self relation.
@@ -73,6 +73,7 @@ module Halibut::Core
 
     # Sets a property in the resource.
     #
+    # @example
     #     resource = Halibut::Core::Resource.new
     #     resource.set_property :name, 'FooBar'
     #     resource.property :name
@@ -94,6 +95,7 @@ module Halibut::Core
 
     # Returns the value of a property in the resource
     #
+    # @example
     #     resource = Halibut::Core::Resource.new
     #     resource.set_property :name, 'FooBar'
     #     resource.property :name
@@ -114,6 +116,7 @@ module Halibut::Core
 
     # Adds link to relation.
     #
+    # @example
     #     resource = Halibut::Core::Resource.new
     #     resource.add_link 'next', '/resource/2', name: 'Foo'
     #     link = resource.links['next'].first
