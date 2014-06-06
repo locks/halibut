@@ -9,8 +9,8 @@ module Halibut
     # Optionally receives an href pointing to the representation
     # and a block containing DSL methods to build the resource.
     #
-    # @param [String] href
-    # @param [Proc]   resource_definition
+    # @param [String] href optional URI for the resource
+    # @param [Proc] resource_definition DSL methods to build the resource
     def initialize(href=nil, &resource_definition)
       @resource = Halibut::Core::Resource.new href
 
@@ -30,6 +30,10 @@ module Halibut
     #
     class RootContext
 
+      # Sets up the root context for the DSL methods.
+      #
+      # @param [Halibut::Core::Resource] resource resource to be built
+      # @param [Proc] resource_definition DSL methods to build the resource
       def initialize(resource, &resource_definition)
         @resource = resource
 
@@ -63,6 +67,7 @@ module Halibut
       # directly because they're just for dereferencing link relations, no
       # CURIE links are presented.
       #
+      # @example Adds a namespace "john" to the resource
       #     resource = Halibut::Builder.new do
       #       namespace :john, 'http://appleseed.com'
       #     end.resource
@@ -77,6 +82,7 @@ module Halibut
 
       # Adds an embedded resource.
       #
+      # @example Builds a resource with name and nick properties
       #     resource = Halibut::Builder.new do
       #       resource '/users/1' do
       #         property :name, "foo"
@@ -131,10 +137,40 @@ module Halibut
         instance_eval(&relation_definition) if block_given?
       end
 
+      # Adds a link to the resource for the parent relation.
+      # Since we're in the context of a relation, only the href and the
+      # options are necessary.
+      #
+      # @example Builds a resource with a link to a `games` relation.
+      #     builder = Halibut::Builder.new do
+      #       relation 'games' do
+      #         link '/games/1'
+      #       end
+      #     end
+      #
+      # @param [String] href href associated with the link
+      # @param [Hash] opts options associated with the link
       def link(href, opts={})
         @resource.tap {|obj| obj.add_link(@rel, href, opts) }
       end
 
+      # Adds an embedded resource for the parent relation.
+      # Since we're in the context of a relation, only the href and the
+      # resource definition is necessary.
+      #
+      # @example Builds a resource with an embedded user for the `users`
+      #          relation.
+      #     builder = Halibut::Builder.new do
+      #       relation 'users' do
+      #         resource '/users/1' do
+      #           property :name, "foo"
+      #           property :nick, "bar"
+      #         end
+      #       end
+      #     end
+      #
+      # @param [String] href href associated with the link
+      # @param [Proc] embedded_definition resource DSL methods
       def resource(href=nil, &embedded_definition)
         embedded = Halibut::Builder.new(href, &embedded_definition)
 

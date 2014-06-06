@@ -76,6 +76,29 @@ module Halibut::Core
       attr_reader :templated, :type, :name,
                   :profile, :title, :hreflang
 
+      # Initializes a link options object.
+      # Available options:
+      #   * templated
+      #   * type
+      #   * name
+      #   * profile
+      #   * title
+      #   * hreflang
+      #
+      # @example Builds an options object with a name and a title
+      #     Options.new({
+      #       :name => "Apple",
+      #       :title => "Swift"
+      #     })
+      #     #=> #<Halibut::Core::Link::Options:0x007f80c880c460
+      #       @hreflang=nil,
+      #       @name="Apple",
+      #       @profile=nil,
+      #       @templated=nil,
+      #       @title="Swift",
+      #       @type=nil>
+      #
+      # @param [Hash] opts options settings
       def initialize opts
         string_options = Helpers::stringify_keys(opts)
 
