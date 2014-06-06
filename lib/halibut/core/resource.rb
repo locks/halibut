@@ -137,7 +137,7 @@ module Halibut::Core
     # @param [String]   relation relation
     # @param [Resource] resource resource to embed
     def embed_resource(relation, resource)
-      warn 'Calling Halibut::Core::Resource#embed_resource for populating an array is deprecated. Use Halibut::Core::Resource#add_embeded_resource instead.' if @embedded[relation]
+      warn 'Calling Halibut::Core::Resource#embed_resource for populating an array is deprecated. Use Halibut::Core::Resource#add_embedded_resource instead.' if @embedded[relation]
       @embedded.add relation, resource
     end
 
