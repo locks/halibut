@@ -27,3 +27,6 @@ doc/
 # IntelliJ
 .idea
 .rbx
+
+# Coveralls
+.coveralls.yml
