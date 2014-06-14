@@ -6,7 +6,7 @@ describe Halibut::Core::RelationMap do
   subject { Halibut::Core::RelationMap.new }
 
   it "is empty" do
-    subject.must_be_empty
+    assert_empty subject
   end
 
   describe '#add' do
@@ -14,9 +14,8 @@ describe Halibut::Core::RelationMap do
       subject.add 'first' , { value: 'first' }
       subject.add 'second', { value: 'second' }
 
-      subject['first'].first[:value].must_equal 'first'
-      subject['second'].last[:value].must_equal 'second'
-
+      assert_equal 'first', subject['first'].first[:value]
+      assert_equal 'second', subject['second'].last[:value]
     end
 
     it "has various items per relation" do
