@@ -1,4 +1,5 @@
 require_relative '../spec_helper'
+require 'json'
 
 read_files = ->() {
   Dir.tap {|it| it.chdir('spec/test-resources/src/main/resources') } \
@@ -13,7 +14,7 @@ describe Halibut::Adapter::JSON do
     subject  = Halibut::Adapter::JSON.dump resource
     json     = load_json "simple"
 
-    MultiJson.load(subject).must_equal MultiJson.load(json)
+    JSON.load(subject).must_equal JSON.load(json)
   end
 
   it "serializes to JSON with links and embedded resources" do
@@ -34,7 +35,7 @@ describe Halibut::Adapter::JSON do
 
     subject = Halibut::Adapter::JSON.dump resource
 
-    MultiJson.load(subject).must_equal MultiJson.load(json)
+    JSON.load(subject).must_equal JSON.load(json)
   end
 
   it "deserializes from JSON" do
@@ -81,7 +82,7 @@ describe Halibut::Adapter::JSON do
   it "tests against test-resources" do
     files  = read_files[]
 
-    refilled  = files.map {|f| MultiJson.load f }
+    refilled  = files.map {|f| JSON.load f }
     resources = files.map {|f| Halibut::Adapter::JSON.parse f }.map &:to_hash
 
     zipped = refilled.zip resources

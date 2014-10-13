@@ -1,4 +1,4 @@
-require 'multi_json'
+require 'json'
 require 'halibut/core'
 
 module Halibut::Adapter
@@ -31,7 +31,7 @@ module Halibut::Adapter
 
     # Returns a JSON string representation of an Halibut::Core::Resource
     def self.dump(resource)
-      MultiJson.dump resource.to_hash
+      ::JSON.dump resource.to_hash
     end
 
     private
@@ -56,7 +56,7 @@ module Halibut::Adapter
       # @deprecated This might go.
       def to_json
         warn "[Deprecation] Don't depend on this, as it might disappear soon."
-        MultiJson.dump self.to_hash
+        ::JSON.dump self.to_hash
       end
     end
 
@@ -81,7 +81,7 @@ module Halibut::Adapter
       # @param [StringIO] json the json from which to extract the resource
       def initialize(json)
         @halibut = Halibut::Core::Resource.new
-        @json    = MultiJson.load(json)
+        @json    = ::JSON.load(json)
 
         extract_properties
         extract_links
@@ -122,9 +122,10 @@ module Halibut::Adapter
         resources.each do |relation,values|
           embeds = ([] << values).flatten
 
-          embeds.map  {|embed| MultiJson.dump embed                     }
-                .map  {|embed| Halibut::Adapter::JSON.parse embed       }
-                .each {|embed| @halibut.embed_resource(relation, embed) }
+          embeds.
+            map  {|embed| ::JSON.dump embed                        }.
+            map  {|embed| Halibut::Adapter::JSON.parse embed       }.
+            each {|embed| @halibut.embed_resource(relation, embed) }
         end
       end
     end
